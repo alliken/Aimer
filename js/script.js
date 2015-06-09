@@ -120,29 +120,6 @@ app.controller('navCtrl', function ($scope, $http, $rootScope, $location) {
 });
 
 //User interface controller
-app.controller('uiCtrl', function ($scope, $http, $rootScope, $location) {
-   // ($rootScope.authenticated) ? ($location.path('/user')) : ($location.path('/login'));
+app.controller('uiCtrl', function () {
+
 });
-
-
-//var app = angular.module('aimer', ['ui.router', 'routeStyles']);
-//app.config(['$routeProvider', '$httpProvider',
-//    function ($routeProvider, $httpProvider) {
-//        $routeProvider
-//            .when('/', {
-//                templateUrl: 'login.html',
-//                controller: 'navCtrl',
-//                css: 'css/login.css'
-//            }).when('/login_error', {
-//                templateUrl: 'login_error.html',
-//                controller: 'navCtrl',
-//                css: 'css/login_error.css'
-//            }).when('/user', {
-//                templateUrl: 'user.html',
-//                controller: 'uiCtrl',
-//                css: 'css/user.css'
-//            }).otherwise({
-//                redirectTo: '/'
-//            });
-//        $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
-//    }]);
