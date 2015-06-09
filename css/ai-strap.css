@@ -1,0 +1,108 @@
+/*----------STANDARD SUBMIT BUTTON-----------*/
+.std-submit {
+  box-sizing: border-box;
+  height: 30px;
+  border: 1px solid #92BCBC;
+  background-color: #92BCBC;
+  color: white;
+  cursor: pointer; }
+
+.std-submit:focus {
+  outline: none !important;
+  box-shadow: none;
+  border: 1px solid white; }
+
+.std-submit:hover {
+  background-color: #7ea3a3;
+  -webkit-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.1) inset;
+  border: none; }
+
+.std-submit:disabled {
+  background-color: #ccc;
+  border: none;
+  cursor: auto; }
+
+.std-submit:disabled:hover {
+  background-color: #ccc;
+  border: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none; }
+
+/*----------STANDARD TEXT INPUT-----------*/
+.std-text {
+  box-sizing: border-box;
+  height: 30px;
+  padding-left: 5px;
+  font-size: 14px;
+  color: #3d3d3d;
+  border: 1px solid #c1c1c1;
+  line-height: normal !important; }
+
+.std-text:focus {
+  outline: none !important; }
+
+.std-text::-webkit-input-placeholder {
+  color: #c1c1c1;
+  -ms-transition: color 0.3s;
+  /* For Safari 3.1 to 6.0 */
+  transition: color 0.3s; }
+
+.std-text:-moz-placeholder {
+  color: #c1c1c1;
+  -ms-transition: color 0.3s;
+  /* For Safari 3.1 to 6.0 */
+  transition: color 0.3s; }
+
+.std-text:-ms-input-placeholder {
+  color: #797979;
+  /* For IE */
+  -ms-transition: color 0.3s;
+  /* For Safari 3.1 to 6.0 */
+  transition: color 0.3s; }
+
+.std-text:focus::-webkit-input-placeholder {
+  color: white; }
+
+.std-text:focus::-moz-placeholder {
+  color: white; }
+
+.std-text:focus:-ms-input-placeholder {
+  color: white; }
+
+/*----------ERROR VALIDATION MESSAGE----------*/
+.validation-error {
+  display: table;
+  position: absolute;
+  left: -265px;
+  top: -11px;
+  height: 80px;
+  width: 250px;
+  background-color: white;
+  border: 1px solid #ffc4b5;
+  text-align: center;
+  color: #333333;
+  -webkit-box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.1); }
+
+.validation-error::before {
+  content: '';
+  position: absolute;
+  right: -15px;
+  top: 33px;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-left: 15px solid #ffc4b5;
+  border-bottom: 7px solid transparent;
+  z-index: 100; }
+
+.validation-error span {
+  display: table-cell;
+  vertical-align: middle;
+  width: 100%; }
+
+/*# sourceMappingURL=ai-strap.css.map */

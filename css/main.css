@@ -1,0 +1,49 @@
+html {
+  font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #3d3d3d;
+  width: 100%;
+  background-image: url("../images/background.png"); }
+
+body {
+  width: 100%; }
+
+.clear {
+  clear: both; }
+
+/*-----------HEADER----------*/
+header {
+  font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  display: inline-block;
+  width: 100%;
+  height: 60px;
+  background-color: #339191;
+  position: relative; }
+  header .logo {
+    display: block;
+    margin: 6px auto;
+    width: 51px;
+    height: 43px;
+    background: url("../images/logo.jpg") no-repeat;
+    background-size: 100%;
+    cursor: pointer; }
+  header #nav {
+    position: absolute;
+    top: 5px;
+    right: 3%;
+    width: 200px;
+    height: 50px; }
+    header #nav #user-login {
+      display: inline-block;
+      float: right;
+      line-height: 50px;
+      margin-right: 10px;
+      font-size: 1.6em;
+      vertical-align: middle;
+      color: #dedede; }
+    header #nav .std-submit {
+      display: inline-block;
+      float: right;
+      width: 60px;
+      margin: 10px 0 0 0; }
+
+/*# sourceMappingURL=main.css.map */
