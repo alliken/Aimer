@@ -91,7 +91,7 @@ app.controller('navCtrl', function ($scope, $http, $rootScope, $location) {
             }
         });
     };
-
+    authenticate();
     $scope.logout = function () {
         $http.post('logout', {}).success(function () {
             $rootScope.authenticated = false;
@@ -104,13 +104,12 @@ app.controller('navCtrl', function ($scope, $http, $rootScope, $location) {
 
     $scope.sign_up = function () {
         var user = dto["user"];
-        user["login"] = $scope.user.login;
         user["password"] = $scope.user.password;
         user["email"] = $scope.user.email.toLowerCase();
 
         return $http({
             method: "POST",
-            url: $rootScope.contextPath+"/users",
+            url: $rootScope.contextPath+"users",
             data: user
         }).success(function (data) {
             alert(data)
