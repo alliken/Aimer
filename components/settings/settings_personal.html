@@ -1,0 +1,97 @@
+<div class="main">
+    <h2 class="ui header">
+        <i class="settings icon"></i>
+
+        <div class="content">
+            Account Settings
+            <div class="sub header">Personal</div>
+        </div>
+    </h2>
+    <div class="ui divider"></div>
+
+    <!--TODO Validation, Interactive validation-->
+    <!--FORM-------------------------->
+    <form name="update" class="ui form" ng-submit="updateInfo()">
+
+        <!--NAME------->
+        <div class="field">
+            <label>Name</label>
+
+            <div class="two fields">
+                <div class="field">
+                    <input type="text" name="first-name" placeholder="First or/and last name" ng-model="user.name">
+                           <!--ng-pattern="/^[a-zA-Z]+(([\'\,\.\-][a-zA-Z])?[a-zA-Z]*)*$/">-->
+                </div>
+            </div>
+        </div>
+
+        <!--LOGIN------>
+        <div class="two fields">
+            <div class="required field unique">
+                <label class="std-label">Login</label>
+
+                <div ng-hide="update.login.$error.maxlength || update.login.$error.minlength ||
+                                  update.login.$error.pattern || update.login.$error.required">
+                    <span class="not-unique-login-message">Your login</span>
+                    <span class="not-unique-login">This login already exists</span>
+                    <span class="not-unique-login-good">Good!</span>
+                </div>
+                <div ng-show="update.login.$dirty">
+                        <span class="login-bad" ng-show="update.login.$error.maxlength || update.login.$error.minlength ||
+                                                     update.login.$error.pattern ||
+                                                     update.login.$error.required">Bad</span>
+                </div>
+                <div class="ui icon input">
+                    <input type="text" name="login" placeholder="login" ng-model="user.login"
+                           ng-model-options="{ updateOn: 'blur' }"
+                           ng-blur="isUnique($event)"
+                           ng-maxlength="15"
+                           ng-minlength="3"
+                           ng-pattern="/^[A-Za-z][A-Za-z0-9]*$/"
+                           required/>
+                    <i class="info green icon link" data-content="Login cannot be longer than 15
+                                  characters, contain at least 3 characters. Your username can only consist of
+                                  alphabetical and number." data-variation="small"></i>
+                </div>
+            </div>
+            <div class="field">
+            </div>
+        </div>
+
+        <!--EMAIL------>
+        <div class="two fields">
+            <div class="required field unique">
+                <label class="std-label">Email</label>
+
+                <div ng-hide="update.email.$error.maxlength || update.email.$error.minlength ||
+                                  update.email.$error.pattern || update.email.$error.required">
+                    <span class="not-unique-email-message">Your email</span>
+                    <span class="not-unique-email">This email already exists</span>
+                    <span class="not-unique-email-good">Good!</span>
+                </div>
+                    <span class="email-bad" ng-show="update.email.$error.maxlength || update.email.$error.minlength ||
+                                                     update.email.$error.pattern ||
+                                                     update.email.$error.required">Bad</span>
+
+                <div class="ui icon input">
+                    <input type="text" name="email" placeholder="Email" ng-model="user.email"
+                           ng-blur="isUnique($event)"
+                           ng-model-options="{ updateOn: 'blur' }"
+                           ng-maxlength="30"
+                           ng-minlength="5"
+                           ng-pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/"
+                           required>
+                    <i class="info green icon link" data-content="The email address has to be in the
+                                  format name@example.com." data-variation="small"></i>
+                </div>
+            </div>
+            <div class="field">
+            </div>
+        </div>
+
+        <div class="ui blue button save" ng-click="updateInfo()">
+            <i class=""></i>
+            Save
+        </div>
+    </form>
+</div>

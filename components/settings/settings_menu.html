@@ -1,0 +1,12 @@
+<!--TODO crop uploaded pictures-->
+<img ng-src="{{currentUser.largePicture}}">
+
+<div class="fluid ui button" ng-click="uploadPhoto()">
+    <input id="file" name="file" type="file" style="display: none">
+    Upload photo
+</div>
+<div class="ui fluid vertical menu">
+    <div class="header item">Account settings</div>
+    <a class="active item personal" ui-sref="personal">Personal</a>
+    <a class="item password" ui-sref="password">Password</a>
+</div>

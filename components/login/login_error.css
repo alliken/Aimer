@@ -1,0 +1,39 @@
+.message {
+  display: block;
+  margin: 0px auto;
+  margin-top: 75px;
+  font-size: 25px;
+  width: 50%;
+  text-align: center; }
+
+.wrap {
+  display: block;
+  position: relative;
+  margin: 15px auto;
+  width: 330px;
+  border: 1px solid #92BCBC;
+  padding: 5px 30px 30px;
+  color: #3d3d3d;
+  background-color: rgba(255, 255, 255, 0.7);
+  -webkit-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.2);
+  text-align: center; }
+  .wrap h3 {
+    font-size: 1.2em;
+    color: #3d3d3d; }
+  .wrap span {
+    position: absolute;
+    top: 15px;
+    left: 0px;
+    color: #ff4b3f;
+    text-align: center;
+    display: inline-block;
+    width: 100%; }
+  .wrap .valid {
+    position: inherit !important; }
+  .wrap .signin input {
+    margin-top: 15px;
+    width: 100%; }
+
+/*# sourceMappingURL=login_error.css.map */

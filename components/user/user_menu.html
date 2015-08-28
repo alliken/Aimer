@@ -1,0 +1,53 @@
+<img class="user-avatar" ng-src="{{anotherUser.largePicture || currentUser.largePicture}}"
+     image-drop on-image-drop="userCtrl.uploadPhotoDrag()">
+
+<div class="fluid ui button upload-photo" ng-click="userCtrl.uploadPhoto()" ng-hide="anotherUser">
+    <input id="file" name="file" type="file" style="display: none">
+    Change photo
+</div>
+
+<div class="follow-button-container">
+    <div class="fluid ui button follow-button" ng-click="userCtrl.follow(anotherUser.userId)"
+         ng-show="anotherUser && !anotherUser.isFollowing">
+         Follow
+    </div>
+    <div class="fluid ui button following-button" ng-click="" ng-show="anotherUser.isFollowing"
+         ng-mouseover="userCtrl.showUnfollowButton()">
+        <i class="checkmark icon"></i> Following
+    </div>
+    <div class="fluid ui button unfollow-button" ng-click="userCtrl.unFollow(anotherUser.userId)"
+         ng-mouseleave="userCtrl.hideUnfollowButton()">
+        Unfollow
+    </div>
+</div>
+
+<div class="scrolling-container">
+    <div class="user-info" ng-cloak>
+        <p>
+            <span class="name">{{(anotherUser.name || user.name)}}</span> <br>
+            <span class="login">{{anotherUser.login || user.login}}</span>
+        </p>
+
+        <p class="user-status">{{userStatus || 'Set status here'}}</p>
+    </div>
+
+    <div class="ui divider"></div>
+
+    <div class="bookmarks">
+
+        <div class="col">
+            <span class="num">{{followingFollowers.aim}}</span> <br>
+            <span class="text">Aims</span>
+        </div>
+
+        <div class="col">
+            <span class="num">{{followingFollowers.following}}</span> <br>
+            <span class="text">Following</span>
+        </div>
+
+        <div class="col">
+            <span class="num">{{followingFollowers.followers}}</span> <br>
+            <span class="next">Followers</span>
+        </div>
+    </div>
+</div>

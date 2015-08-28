@@ -3,32 +3,145 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="/aimer/">
     <title>Aimer</title>
-    <link href="css/reset.css" type="text/css" rel="stylesheet">
+    <style>
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
+            display: none !important;
+        }
+    </style>
+
+    <link href="libs/semantic.min.css" type="text/css" rel="stylesheet">
     <link href="css/ai-strap.css" type="text/css" rel="stylesheet">
     <link href="css/main.css" type="text/css" rel="stylesheet">
-    <script src="js/dto/dto.js" type="text/javascript"></script>
-    <script src="js/angular.min.js" type="text/javascript"></script>
-    <script src="js/angular-ui-router.min.js" type="text/javascript"></script>
-    <script src="js/ui-router-styles.js" type="text/javascript"></script>
-    <script src="js/module-config.js" type="text/javascript"></script>
-    <script src="js/controllers.js" type="text/javascript"></script>
-    <script src="js/directives.js" type="text/javascript"></script>
+    <link href="css/jquery.Jcrop.css" type="text/css" rel="stylesheet">
+    <link href="libs/highlight/styles/default.css" rel="stylesheet" >
+    <link href="libs/dateTimePicker/DateTimePicker.css" type="text/css" rel="stylesheet">
+
+    <script src="libs/jquery-1.11.3.min.js"></script>
+    <script src="libs/dateTimePicker/DateTimePicker.js"></script>
+    <script src="js/dto.js"></script>
+    <script src="libs/angular.min.js"></script>
+    <script src="libs/angular-ui-router.min.js"></script>
+    <script src="js/module-config.js"></script>
+    <script src="js/services/authorizationService.js"></script>
+    <script src="js/services/userStorageService.js"></script>
+    <script src="js/directives/lazyLoadDirective.js"></script>
+    <script src="js/directives/searchDirective.js"></script>
+    <script src="components/user/attachUserDirective.js"></script>
+    <script src="js/directives/searchListDirective.js"></script>
+    <script src="js/directives/dragAndDropDirective.js"></script>
+    <script src="components/user/followService.js"></script>
+    <script src="components/user/contentEditableDirective.js"></script>
+    <script src="components/user/userCtrl.js"></script>
+    <script src="components/user/aimCtrl.js"></script>
+    <script src="libs/semantic.min.js"></script>
+    <script src="libs/tinymce/tinymce.min.js"></script>
+    <script src="libs/highlight/highlight.pack.js"></script>
+    <script src="js/navCtrl.js"></script>
+    <script src="components/login/loginCtrl.js"></script>
+    <script src="js/jquery.Jcrop.min.js"></script>
+
 </head>
-<body ng-controller="navCtrl">
+<body ng-controller="navCtrl as nav" style="position: relative;">
+
 <header>
-    <a class="logo" href="#/"></a>
-    <div id="nav">
-        <input class="std-submit" ng-show="authenticated" type="button" value="Logout" ng-click="logout()">
-        <span id="user-login" ng-show="authenticated" ng-cloak>{{userLogin}}</span>
-        <div class="clear"></div>
+    <div class="header-width">
+        <div class="left-nav-btns" ng-show="authenticated">
+            <a ui-sref="home">
+                <i class="large home icon"></i>
+            </a>
+            <i class="large user icon"></i>
+            <i class="large alarm icon"></i>
+            <i class="large mail icon"></i>
+        </div>
+
+        <a class="logo" ui-sref="home"></a>
+
+        <div class="right-nav-btns">
+            <div class="usr">
+                <div ng-show="authenticated">
+                    <img class="ui image pic drop-button" ng-src="{{currentUser.smallPicture}}">
+                </div>
+
+                <i class="large plus icon" ng-show="authenticated"></i>
+
+                <!--SEARCH-->
+                <div>
+                    <div class="ui small icon input">
+                        <input class="search-input" type="text" placeholder="Search..." ng-model="searchFriends"
+                               search-model
+                               search-list
+                               ng-model-options="{ debounce: 400 }" ng-blur="hideSearchList()">
+                        <i class="search icon"></i>
+                    </div>
+
+                    <div class="search-list">
+                        <div class="ui celled list">
+                            <a class="item us" ng-repeat="user in friends"
+                               ng-click="nav.redirectToUser(user.login)"
+                               click-data="{{user.login}}"
+                               ng-hide="searchError">
+                                <div class="ui image">
+                                    <img class="pic" ng-src="{{contextPath + user.smallPicture}}">
+                                </div>
+                                <div class="content">
+                                    <div class="header">{{user.name}}</div>
+                                    {{user.login}}
+                                </div>
+                            </a>
+
+                            <div class="item searchError" ng-show="searchError">
+                                Sorry, but we couldn't find user with this login
+                            </div>
+                            <a class="item advanced-search">
+                                <i class="small search icon"></i>
+                                Advanced search
+                            </a>
+                        </div>
+                    </div>
+                    <div class="menu dropped" ng-show="authenticated">
+                        <div class="item">
+                            <a ui-sref="home">
+                                <i class="user icon"></i>
+                                Profile
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a ui-sref="personal">
+                                <i class="setting icon"></i>
+                                Settings
+                            </a>
+                        </div>
+                        <div class="item">
+                            <a ng-click="nav.logout()">
+                                <i class="sign out icon"></i>
+                                Log out
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
     </div>
 </header>
+<div class="clear"></div>
 
-<div ui-view class="container"></div>
+<div class="signup-please hidden">
+    <a href="#">Sign up</a> please to use all our features
+</div>
+
+<div class="background-container"></div>
+
+<div class="wrapper">
+    <div class="navigation"></div>
+    <div class="hide-element">
+        <div ui-view="" class="container" ng-cloak></div>
+    </div>
+</div>
 
 <footer></footer>
-
-
 </body>
 </html>

@@ -1,0 +1,191 @@
+<div class="modal-box" style="display: none;">
+    <div class="modal-container">
+
+        <i class="remove icon modal-close"></i>
+
+        <div class="crop-container">
+            <img src="" id="target" alt="[Jcrop Example]"/>
+
+            <div class="upload-avatar" style="display: none;">
+                <div id="preview-pane-large">
+                    <div class="preview-container-large">
+                        <img src="" id="preview-image-large"
+                             class="jcrop-preview-large"
+                             alt="Preview"
+                             style="display: none">
+                    </div>
+                </div>
+
+                <div id="preview-pane-small">
+                    <div class="preview-container-small">
+                        <img src="" id="preview-image-small"
+                             class="jcrop-preview-small"
+                             alt="Preview"
+                             style="display: none">
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+
+                <div class="center-content">
+                    <div class="blue ui icon button save-photo" ng-click="userCtrl.sendPhoto()">
+                        Save
+                    </div>
+                    <div class="ui button" ng-click="userCtrl.uploadPhoto()">
+                        <input id="image-file" name="image-file" type="file" class="hidden">
+                        Upload
+                    </div>
+                </div>
+            </div>
+
+            <div class="upload-background" style="display: none;">
+                <div class="ui divider"></div>
+                <div class="center-content">
+                    <div class="blue ui icon button save-photo" ng-click="userCtrl.sendBackground()">
+                        Save
+                    </div>
+                    <div class="ui button" ng-click="userCtrl.uploadBackground()">
+                        <input class="hidden" id="image-background" name="image-file" type="file">
+                        Upload
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="main">
+
+    <div class="aim-add" ng-hide="anotherUser" ng-controller="aimCtrl as aimCtrl">
+        <div class="aim-add-button" ng-hide="expandFormAim" ng-click="aimCtrl.expandAddAim()">
+            <i class="large plus icon"></i>
+            <span>New AIM</span>
+        </div>
+        <div class="aim-add-form-container">
+            <form class="ui form aim-add-form">
+
+                <section class="main-section aim-name">
+                    <img class="pic" ng-src="{{user.smallPicture}}">
+
+                    <div class="name" contenteditable="true" attach-user="1"></div>
+                    <div class="clear"></div>
+                </section>
+
+                <section class="main-section aim-text">
+                    <div class="container">
+                        <div class="text-wrap">
+                            <textarea class="aim-textarea" name="content"></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="ui horizontal divider">Steps</div>
+
+                <section class="main-section aim-step">
+                    <div class="step-container container" ng-repeat="step in steps">
+                        <section class="step-item">
+                            <div class="step-number">{{$index + 1}}</div>
+                            <div class="step-name"
+                                 contenteditable="true"
+                                 content-model="step.name"
+                                 attach-user="2">{{step.name}}</div>
+                            <div class="clear"></div>
+                        </section>
+                        <section class="step-properties">
+                            <i class="keyboard icon" ng-click="aimCtrl.showDescription()"></i>
+                            <i class="list icon" ng-click="aimCtrl.addSubStep($index)"></i>
+                            <i class="photo icon"></i>
+                            <i class="calendar icon" ng-click="aimCtrl.setDateTime($event, $index)"></i>
+                            <div id="startGroup{{$index}}">
+                                <input type="text" class="start-date date hidden" placeholder="Start"
+                                       readonly data-field="datetime">
+                            </div>
+                            <div id="endGroup{{$index}}">
+                                <input type="text" class="end-date date hidden" placeholder="End"
+                                       data-field="datetime" readonly>
+                            </div>
+
+                            <div id="dtBox{{$index}}"></div>
+                            <div id="dt2Box{{$index}}"></div>
+                        </section>
+                        <section>
+                            <div class="step-description hidden"
+                                 contenteditable="true"
+                                 attach-user></div>
+                        </section>
+                        <section class="subSteps">
+                            <div class="container" ng-repeat="subStep in step.subStep">
+                                <div class="subStep-number">{{$index + 1}}</div>
+                                <div class="subStep-name"
+                                     contenteditable="true"
+                                     content-model="subStep.name"
+                                     attach-user="3">{{subStep.name}}</div>
+                                <div class="delete-substep" ng-click="aimCtrl.deleteSubStep($parent.$index, $index)"><i
+                                        class="remove icon"></i></div>
+                            </div>
+                            <div class="clear"></div>
+                        </section>
+                        <div class="clear"></div>
+                    </div>
+                </section>
+                <button class="ui grey basic button new-step" ng-click="aimCtrl.newStep()">New Step</button>
+                <button class="ui grey basic button last-step" ng-click="aimCtrl.deleteStep()">Delete Step</button>
+
+                <div class="ui divider"></div>
+
+                <div class="ui selection dropdown" style="float: left">
+                    <input name="gender" type="hidden" value="default">
+                    <i class="dropdown icon"></i>
+
+                    <div class="default text">Default</div>
+                    <div class="menu">
+                        <div class="item" data-value="0">Private</div>
+                        <div class="item" data-value="1">Friends</div>
+                        <div class="item" data-value="default">Public</div>
+                    </div>
+                </div>
+                <div class="ui teal basic button save-button" ng-click="aimCtrl.saveAim()">
+                    Save
+                </div>
+                <div class="ui orange basic button cancel-button" ng-click="aimCtrl.hideAddAim()">
+                    Cancel
+                </div>
+                <div class="ui teal basic button add-picture" ng-click="aimCtrl.uploadAimPicture()">
+                    <i class="photo icon"></i>
+                    Add picture
+                    <input class="aim-picture hidden" type="file" multiple>
+                </div>
+                <div class="clear"></div>
+            </form>
+        </div>
+
+        <!--SEARCH LIST WHEN USER ATTACHING-->
+        <div class="search-list-attach">
+            <div class="ui celled list">
+                <a class="item us" ng-repeat="user in friends"
+                   ng-click="aimCtrl.setAttachedUser(user.userId, user.login)"
+                   click-data="{{user.login}}"
+                   ng-hide="searchError">
+                    <div class="ui image">
+                        <img class="pic" ng-src="{{contextPath + user.smallPicture}}">
+                    </div>
+                    <div class="content">
+                        <div class="header">{{user.name}}</div>
+                        {{user.login}}
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="block">
+        <div class="head"></div>
+        <div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+
+</div>

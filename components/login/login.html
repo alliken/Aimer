@@ -1,0 +1,109 @@
+<div class="wrap">
+    <span ng-show="isEmpty">Login and password can't be empty</span>
+
+    <!--SIGN IN FORM-->
+    <form class="signin" ng-submit="log_in()">
+        <input class="std-text" type="text" placeholder="name@example.com" ng-model="credentials.username"
+               autofocus><br>
+        <input class="std-text" type="password" placeholder="password" ng-model="credentials.password"><br>
+        <input class="std-submit" type="submit" value="Login">
+
+        <a ui-sref="password_recovery">Forgot password?</a>
+
+        <div class="ui horizontal divider">
+            Or
+        </div>
+        <!--Socials-->
+        <div class="socials">
+            <a href="" class="ui facebook icon button" ng-click="signin('facebook')">
+                <i class="facebook icon"></i>
+            </a>
+            <button class="ui twitter icon button">
+                <i class="twitter icon"></i>
+            </button>
+            <button class="ui linkedin icon button">
+                <i class="linkedin icon"></i>
+            </button>
+            <button class="ui google plus icon button">
+                <i class="google plus icon"></i>
+            </button>
+        </div>
+
+    </form>
+    <div class="signup">
+        <p>Don't have an account?</p>
+
+        <!--SIGN UP FORM-->
+        <form class="signup-form" ng-submit="sign_up()" name="signup">
+
+            <!--EMAIL-->
+            <div class="input">
+                <input class="std-text" type="email" name="email" placeholder="name@example.com"
+                       ng-model="user.email"
+                       ng-maxlength="30"
+                       ng-minlength="5"
+                       ng-pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/"
+                       required
+                       ng-focus><br>
+
+                <div class="validation-error" ng-show="signup.email.$dirty && signup.email.$invalid &&
+                    !signup.email.$focused">
+                        <span ng-show="signup.email.$error.pattern || signup.email.$error.required ||
+                                       signup.email.$error.email">
+                            The email address has to be in the format name@example.com.
+                        </span>
+
+                </div>
+            </div>
+
+            <!--PASSWORD-->
+            <div class="input">
+                <!-- TODO strong levels -->
+                <input class="std-text" type="password" name="password" placeholder="password"
+                       ng-model="user.password"
+                       ng-maxlength="16"
+                       ng-minlength="6"
+                       ng-pattern="/^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$/"
+                       ng-focus
+                       required><br>
+
+                <div class="validation-error" ng-show="signup.password.$dirty && signup.password.$invalid &&
+                    !signup.password.$focused">
+                        <span ng-show="signup.password.$error.pattern || signup.password.$error.email ||
+                                       signup.password.$error.maxlength || signup.password.$error.minlength ||
+                                       signup.login.$error.required">
+                            Password must contain at least one letter, at least one number, be longer than six
+                            charaters and not more than 16 characters.
+                        </span>
+                </div>
+            </div>
+
+            <!--CONFIRM PASSWORD-->
+            <div class="input">
+                <input class="std-text" type="password" name="confirmPassword" placeholder="reenter password"
+                       ng-model="user.confirmPassword"
+                       password-match="user"
+                       ng-focus
+                       required><br>
+
+                <div class="validation-error" ng-show="signup.confirmPassword.$dirty &&
+                    signup.confirmPassword.$invalid &&
+                    !signup.confirmPassword.$focused">
+                        <span ng-show="signup.confirmPassword.$error.required ||
+                                       signup.confirmPassword.$error.passwordMatch">
+                            These passwords don't match</span>
+                </div>
+            </div>
+
+            <input class="std-submit" type="submit" value="Sign up" ng-disabled="signup.$invalid">
+
+        </form>
+    </div>
+</div>
+
+<div class="cont">
+    <h1>Manage your targets easily</h1>
+
+    <h2>Share with your friends</h2>
+</div>
+<div class="clear"></div>

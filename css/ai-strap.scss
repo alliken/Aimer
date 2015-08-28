@@ -1,11 +1,17 @@
+$main-font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $main-font-color: #3d3d3d;
 $main-color: #328484;
 $main-blue: #92BCBC;
 $main-blue-darker: #7ea3a3;
 $placeholder-font-color: #c1c1c1;
 
+
+.hidden {
+    display: none;
+}
 /*----------STANDARD SUBMIT BUTTON-----------*/
 .std-submit {
+    font: $main-font;
     box-sizing: border-box;
     height: 30px;
     border: 1px solid $main-blue;
@@ -14,11 +20,13 @@ $placeholder-font-color: #c1c1c1;
     cursor: pointer;
 }
 .std-submit:focus {
+    font: $main-font;
     outline: none !important;
     box-shadow: none;
     border: 1px solid white;
 }
 .std-submit:hover {
+    font: $main-font;
     background-color: $main-blue-darker;
     -webkit-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1) inset;
     -moz-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1) inset;
@@ -26,6 +34,7 @@ $placeholder-font-color: #c1c1c1;
     border: none;
 }
 .std-submit:disabled {
+    font: $main-font;
     background-color: #ccc;
     border: none;
     cursor: auto;
@@ -39,6 +48,7 @@ $placeholder-font-color: #c1c1c1;
 }
 /*----------STANDARD TEXT INPUT-----------*/
 .std-text {
+    font: $main-font;
     box-sizing: border-box;
     height: 30px;
     padding-left: 5px;
@@ -48,19 +58,23 @@ $placeholder-font-color: #c1c1c1;
     line-height:normal !important;
 }
 .std-text:focus {
+    font: $main-font;
     outline: none !important;
 }
 .std-text::-webkit-input-placeholder {
+    font: $main-font;
     color:    $placeholder-font-color;
     -ms-transition: color 0.3s; /* For Safari 3.1 to 6.0 */
     transition: color 0.3s;
 }
 .std-text:-moz-placeholder{
+    font: $main-font;
     color:    $placeholder-font-color;
     -ms-transition: color 0.3s; /* For Safari 3.1 to 6.0 */
     transition: color 0.3s;
 }
 .std-text:-ms-input-placeholder {
+    font: $main-font;
     color: #797979; /* For IE */
     -ms-transition: color 0.3s; /* For Safari 3.1 to 6.0 */
     transition: color 0.3s;

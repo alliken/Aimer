@@ -1,0 +1,52 @@
+.wrapper {
+  width: 100%; }
+
+.cont {
+  display: inline-block;
+  float: left;
+  margin-top: 150px;
+  margin-left: 40px; }
+  .cont h1 {
+    font-size: 4.1em; }
+  .cont h2 {
+    font-size: 3em;
+    margin-left: 60px;
+    color: #2c6903; }
+
+.wrap {
+  display: inline-block;
+  float: right;
+  position: relative;
+  width: 25%;
+  margin-right: 10%;
+  margin-top: 30px;
+  min-width: 200px;
+  border: 1px solid #92BCBC;
+  padding: 20px 30px 30px 30px;
+  color: #3d3d3d;
+  background-color: rgba(255, 255, 255, 0.7);
+  -webkit-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.2); }
+  .wrap .signin input {
+    margin-top: 15px;
+    width: 100%; }
+  .wrap .signup {
+    text-align: center;
+    margin-top: 30px; }
+    .wrap .signup p {
+      font-size: 20px; }
+    .wrap .signup input {
+      margin-top: 15px;
+      width: 100%; }
+    .wrap .signup .input {
+      position: relative; }
+    .wrap .signup .signup-form {
+      margin-top: -20px; }
+  .wrap .socials {
+    margin: 15px auto;
+    display: block;
+    width: 200px;
+    height: 20px; }
+
+/*# sourceMappingURL=login.css.map */

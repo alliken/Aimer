@@ -1,0 +1,14 @@
+<div class="background" ng-style="{'background': 'url(' +
+                                   (anotherUser.backgroundPicturePath || currentUser.backgroundPicturePath) + ')',
+                                   'background-size': '100%',
+                                   'background-repeat': 'no-repeat'}"
+     image-drop on-image-drop="userCtrl.uploadBackgroundDrag()">
+    <div class="edit-background-hover" ng-mouseover="userCtrl.showEditBackgroundPanel()"
+         ng-mouseleave="userCtrl.hideEditBackgroundPanel()"
+         ng-show="authenticated && !anotherUser">
+        <div class="edit-background-panel">
+            <i class="write icon edit-background" ng-click="userCtrl.uploadBackground()"></i>
+        </div>
+    </div>
+    <input class="hidden" id="background" name="image-file" type="file">
+</div>

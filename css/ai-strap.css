@@ -1,5 +1,9 @@
+.hidden {
+  display: none; }
+
 /*----------STANDARD SUBMIT BUTTON-----------*/
 .std-submit {
+  font: "Helvetica Neue", Helvetica, Arial, sans-serif;
   box-sizing: border-box;
   height: 30px;
   border: 1px solid #92BCBC;
@@ -8,11 +12,13 @@
   cursor: pointer; }
 
 .std-submit:focus {
+  font: "Helvetica Neue", Helvetica, Arial, sans-serif;
   outline: none !important;
   box-shadow: none;
   border: 1px solid white; }
 
 .std-submit:hover {
+  font: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #7ea3a3;
   -webkit-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1) inset;
   -moz-box-shadow: 1px 1px 0px 0px rgba(0, 0, 0, 0.1) inset;
@@ -20,6 +26,7 @@
   border: none; }
 
 .std-submit:disabled {
+  font: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #ccc;
   border: none;
   cursor: auto; }
@@ -33,6 +40,7 @@
 
 /*----------STANDARD TEXT INPUT-----------*/
 .std-text {
+  font: "Helvetica Neue", Helvetica, Arial, sans-serif;
   box-sizing: border-box;
   height: 30px;
   padding-left: 5px;
@@ -42,21 +50,25 @@
   line-height: normal !important; }
 
 .std-text:focus {
+  font: "Helvetica Neue", Helvetica, Arial, sans-serif;
   outline: none !important; }
 
 .std-text::-webkit-input-placeholder {
+  font: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #c1c1c1;
   -ms-transition: color 0.3s;
   /* For Safari 3.1 to 6.0 */
   transition: color 0.3s; }
 
 .std-text:-moz-placeholder {
+  font: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #c1c1c1;
   -ms-transition: color 0.3s;
   /* For Safari 3.1 to 6.0 */
   transition: color 0.3s; }
 
 .std-text:-ms-input-placeholder {
+  font: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #797979;
   /* For IE */
   -ms-transition: color 0.3s;
