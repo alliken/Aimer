@@ -150,11 +150,18 @@
                 <div class="ui orange basic button cancel-button" ng-click="aimCtrl.hideAddAim()">
                     Cancel
                 </div>
-                <div class="ui teal basic button add-picture" ng-click="aimCtrl.uploadAimPicture()">
+                <div class="ui teal basic button add-picture" ng-click="aimCtrl.dropDown()">
                     <i class="photo icon"></i>
                     Add picture
                     <input class="aim-picture hidden" type="file" multiple>
+                    <div class="dropdown-add-picture hidden">
+                        <div class="item" ng-click="aimCtrl.uploadAimPicture();
+                        aimCtrl.dropDown()">Upload from computer</div>
+                        <div class="item" ng-click="aimCtrl.showDragAndDropField(); aimCtrl.dropDown()">Drag</div>
+                    </div>
                 </div>
+                <div class="clear"></div>
+                <div class="aim-images-preview hidden" image-drop on-image-drop="aimCtrl.uploadAimPictureDrag()"></div>
                 <div class="clear"></div>
             </form>
         </div>

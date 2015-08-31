@@ -30,7 +30,7 @@ app.directive('imageDrop', function ($parse, $document) {
             element.bind("drop", function (e) {
                     angular.element('.drag-enter').removeClass('drag-enter');
                     e.preventDefault();
-                    loadFile(e.originalEvent.dataTransfer.files[0]);
+                    loadFile(e.originalEvent.dataTransfer.files);
                 });
         }
     };

@@ -25,18 +25,18 @@ app.controller('navCtrl', function ($scope, $http, $rootScope, $location, $state
         $location.path('/' + login);
     };
 
-    //$('.info').popup();
-
     $('.navigation').text('');
 
     $(window).mouseup(function (e) {
-        var container = $('.dropped');
-        var dropButton = $('.drop-button');
-        if ((!container.is(e.target) && !dropButton.is(e.target)) || container.is(':visible')) {
-            container.hide();
-        }
-        else {
-            container.show()
+        var container = [$('.dropped'), $('.dropdown-add-picture')];
+        var dropButton = [$('.drop-button'), $('.aim-picture')];
+        for (var i = 0; i < container.length; i++) {
+            if ((!container[i].is(e.target) && !dropButton[i].is(e.target)) || container[i].is(':visible')) {
+                container[i].hide();
+            }
+            else {
+                container[i].show()
+            }
         }
 
     });

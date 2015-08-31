@@ -1,9 +1,9 @@
-app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $http) {
+app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $http, $compile) {
     var aimCtrl = this,
-        ang = angular.element,
-        aim = {
-            'markedUsers': ''
-        };
+        ang = angular.element;
+    aimCtrl.aim = {
+        'pictures': []
+    };
 
     //Expand (show) aim add block
     aimCtrl.expandAddAim = function () {
@@ -257,22 +257,146 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
     };
     //.... END OF STEP-PROPERTIES BUTTON FUNCTIONS
 
-    aimCtrl.uploadAimPicture = function () {
-        ang('.aim-picture').click();
+    /**
+     * Uploads not more than six pictures chosen by user to UI and
+     * adds such to an object
+     *
+     * @var imageInput - file input
+     * @var inputLength - uploaded file quantity
+     * @var files - uploaded files
+     * @var uploadedImages - images quantity, uploaded to the DOM
+     *
+     * @function recursion - uploads loaded in imageInput images to the DOM
+     */
+    aimCtrl.uploadAimPicture = function (file) {
+        if (file) {
+            insertPicture(file)
+        } else {
+            var imageInput = document.querySelector('.aim-picture');
+            imageInput.click();
+            imageInput.onchange = function () {
+                insertPicture()
+            };
+        }
+
+        function insertPicture(file) {
+            var uploadedImages = ang('.aim-images-preview .image-container').length,
+                inputLength,
+                files;
+            if (file) {
+                inputLength = file.length;
+                files = file;
+            } else {
+                inputLength = imageInput.files.length;
+                files = imageInput.files;
+            }
+
+            if ((inputLength > 6) || (inputLength > (6 - uploadedImages))) {
+                alert('Sorry, but you can\'t attach more than six images');
+            } else if (inputLength === 0) {
+                // do nothing
+            } else {
+                ang('.aim-images-preview').css('display', 'inline-block');
+                var i = 0;
+                (function recursion() {
+                    var imgContainerWrap = ang('.aim-images-preview'),
+                        reader = new FileReader();
+                    if (i < inputLength) {
+                        reader.onloadend = function () {
+                            ang(imgContainerWrap).append($compile(ang('<div class="image-container"><img src="'
+                            + reader.result + '">' +
+                            '<div class="remove-icon-container" ng-click="aimCtrl.closeUploadedPicture($event)">' +
+                            '<i class="remove icon"></i></div></div>'))($scope));
+                            var imageHeight = document.querySelector('.aim-images-preview').lastElementChild
+                                    .firstElementChild.naturalHeight,
+                                imageWidth = document.querySelector('.aim-images-preview').lastElementChild
+                                    .firstElementChild.naturalWidth,
+                                ratio = imageWidth / imageHeight;
+                            if (ratio < 1.6) {
+                                ang(document.querySelector('.aim-images-preview').lastElementChild
+                                    .firstElementChild).css({width: 'auto', height: '100%'});
+                            }
+                            var item = ang('.aim-images-preview .image-container').length - 1;
+                            console.log(files[i].size);
+                            aimCtrl.aim.pictures[item] = files[i];
+                            i++;
+                            recursion();
+                        };
+                        reader.readAsDataURL(files[i]);
+                    }
+                })();
+            }
+        }
+    };
+
+    aimCtrl.uploadAimPictureDrag = function () {
+        var file = $scope.uploadedFile;
+        aimCtrl.uploadAimPicture(file)
+    };
+
+    aimCtrl.dropDown = function () {
+        if (ang('.dropdown-add-picture').is(":visible")) {
+            ang('.dropdown-add-picture').hide();
+        } else {
+            ang('.dropdown-add-picture').show();
+        }
+    };
+
+    aimCtrl.showDragAndDropField = function() {
+        ang('.aim-images-preview').css('display', 'inline-block');
     };
 
     /**
-     * collectAimData() function collects AIM data including its steps, substeps
-     * It calls by clicking "Save" button in aim-add block.
-     * -----------------------VARIABLES------------------------
-     * aimName - aim title (obligatory field)
-     * aimDescription - aim description
-     * access - type of access to this AIM (private, public, friends)
-     * aimAttached - attached users to this AIM by @
-     * -----------------------FUNCTIONS------------------------
-     * getAimAttachedUsers() - get all users, attached to AIM
-     * stepSet() - collect data from all AIM steps
-     * subStepSet() - collect data from all steps substeps
+     *  Closes uploaded image to aim and deletes it from an object
+     *
+     * @function deletePicture()
+     *  deletes image by index in parent object,
+     *  animates it and removes image element from DOM
+     *  @function getIndex()
+     *   gets index of clicked image
+     *
+     * @param e
+     *  an click event
+     */
+    aimCtrl.closeUploadedPicture = function (e) {
+        if (e.target.nodeName == 'I') {
+            deletePicture(ang(e.target).parent().parent());
+        } else {
+            deletePicture(ang(e.target).parent());
+        }
+        function deletePicture(target) {
+            aimCtrl.aim.pictures.splice(getIndex(target), 1);
+            $(target)
+                .transition({
+                    animation: 'scale',
+                    duration: 200
+                });
+            $timeout(function () {
+                target.remove();
+                if (ang('.aim-images-preview div').length === 0) {
+                    ang('.aim-images-preview').hide();
+                }
+            }, 150);
+            function getIndex(elem) {
+                var i = 0;
+                while ((elem = elem.previousElementSibling) != null) ++i;
+                return i;
+            }
+        }
+    };
+
+    /**
+     * Function collects AIM data including its steps, substeps
+     * and calls by clicking "Save" button in aim-add block.
+     *
+     * @var aimName - aim title (obligatory field)
+     * @var aimDescription - aim description
+     * @var access - type of access to this AIM (private, public, friends)
+     * @var aimAttached - attached users to this AIM by @
+     *
+     * @function getAimAttachedUsers() - get all users, attached to AIM
+     * @function stepSet() - collect data from all AIM steps
+     * @function subStepSet() - collect data from all steps substeps
      */
     aimCtrl.collectAimData = function () {
         // TODO Aim end and start, Step picture
@@ -396,7 +520,7 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
     };
 
     (function semanticUI() {
-        $('.ui.dropdown')
+        ang('.ui.dropdown')
             .dropdown();
     })();
 

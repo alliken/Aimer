@@ -475,13 +475,13 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
 
     //UPLOAD AVATAR (DRAG AND DROP)
     userCtrl.uploadPhotoDrag = function () {
-        var file = $scope.uploadedFile;
+        var file = $scope.uploadedFile[0];
         userCtrl.uploadPhoto(file);
     };
 
     //UPLOAD BACKGROUND (DRAG AND DROP)
     userCtrl.uploadBackgroundDrag = function () {
-        var file = $scope.uploadedFile;
+        var file = $scope.uploadedFile[0];
         userCtrl.uploadBackground(file);
     };
 
