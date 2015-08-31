@@ -553,12 +553,13 @@ html {
         border: 1px solid #cccccc;
         width: 500px;
         min-height: 150px;
+        //max-height: 450px;
 
         .image-container {
           float: left;
           position: relative;
-          width: 32.5%;
-          height: 100px;
+          width: 32%;
+          //height: 100px;
           display: block;
           img {
             vertical-align: top;
@@ -578,9 +579,7 @@ html {
             border-radius: 200px;
             i.icon {
               color: white;
-              margin: 0px;
-              margin-top: 0px;
-              margin-left: 1px;
+              margin: 0 0 0 1px;
             }
           }
           .remove-icon-container:hover {

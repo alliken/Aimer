@@ -420,8 +420,7 @@ html {
         .main .aim-add .aim-add-form-container .aim-images-preview .image-container {
           float: left;
           position: relative;
-          width: 32.5%;
-          height: 100px;
+          width: 32%;
           display: block; }
           .main .aim-add .aim-add-form-container .aim-images-preview .image-container img {
             vertical-align: top;
@@ -439,9 +438,7 @@ html {
             border-radius: 200px; }
             .main .aim-add .aim-add-form-container .aim-images-preview .image-container .remove-icon-container i.icon {
               color: white;
-              margin: 0px;
-              margin-top: 0px;
-              margin-left: 1px; }
+              margin: 0 0 0 1px; }
           .main .aim-add .aim-add-form-container .aim-images-preview .image-container .remove-icon-container:hover {
             background-color: rgba(0, 0, 0, 0.8); }
 

@@ -4,6 +4,7 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
     aimCtrl.aim = {
         'pictures': []
     };
+    var masonryGrid;
 
     //Expand (show) aim add block
     aimCtrl.expandAddAim = function () {
@@ -307,19 +308,24 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
                             + reader.result + '">' +
                             '<div class="remove-icon-container" ng-click="aimCtrl.closeUploadedPicture($event)">' +
                             '<i class="remove icon"></i></div></div>'))($scope));
-                            var imageHeight = document.querySelector('.aim-images-preview').lastElementChild
-                                    .firstElementChild.naturalHeight,
-                                imageWidth = document.querySelector('.aim-images-preview').lastElementChild
-                                    .firstElementChild.naturalWidth,
-                                ratio = imageWidth / imageHeight;
-                            if (ratio < 1.6) {
-                                ang(document.querySelector('.aim-images-preview').lastElementChild
-                                    .firstElementChild).css({width: 'auto', height: '100%'});
-                            }
+                            //var imageHeight = document.querySelector('.aim-images-preview').lastElementChild
+                            //        .firstElementChild.naturalHeight,
+                            //    imageWidth = document.querySelector('.aim-images-preview').lastElementChild
+                            //        .firstElementChild.naturalWidth,
+                            //    ratio = imageWidth / imageHeight;
+                            //if (ratio < 1.6) {
+                            //    ang(document.querySelector('.aim-images-preview').lastElementChild
+                            //        .firstElementChild).css({width: 'auto', height: '100%'});
+                            //}
                             var item = ang('.aim-images-preview .image-container').length - 1;
-                            console.log(files[i].size);
                             aimCtrl.aim.pictures[item] = files[i];
                             i++;
+                            if (i == inputLength) {
+                                masonryGrid = $('.aim-images-preview').masonry({
+                                    // options...
+                                    itemSelector: '.image-container'
+                                });
+                            }
                             recursion();
                         };
                         reader.readAsDataURL(files[i]);
@@ -373,6 +379,7 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
                 });
             $timeout(function () {
                 target.remove();
+                masonryGrid.masonry();
                 if (ang('.aim-images-preview div').length === 0) {
                     ang('.aim-images-preview').hide();
                 }
