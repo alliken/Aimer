@@ -411,21 +411,21 @@ html {
         border-bottom: 16px solid #f1f1f1;
         z-index: 100; }
       .main .aim-add .aim-add-form-container .aim-images-preview {
-        padding: 10px;
+        padding: 2px;
         margin-top: 10px;
         background-color: #e6e6e6;
         border: 1px solid #cccccc;
-        width: 500px;
-        min-height: 150px; }
+        width: 483px;
+        min-height: 123px; }
         .main .aim-add .aim-add-form-container .aim-images-preview .image-container {
           float: left;
           position: relative;
-          width: 32%;
+          width: 159px;
           display: block; }
           .main .aim-add .aim-add-form-container .aim-images-preview .image-container img {
             vertical-align: top;
             width: 100%;
-            padding: 3px; }
+            padding: 1px; }
           .main .aim-add .aim-add-form-container .aim-images-preview .image-container .remove-icon-container {
             background-color: rgba(0, 0, 0, 0.5);
             position: absolute;

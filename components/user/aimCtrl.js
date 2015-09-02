@@ -1,10 +1,10 @@
 app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $http, $compile) {
     var aimCtrl = this,
-        ang = angular.element;
+        ang = angular.element,
+        masonryGrid = undefined;
     aimCtrl.aim = {
         'pictures': []
     };
-    var masonryGrid;
 
     //Expand (show) aim add block
     aimCtrl.expandAddAim = function () {
@@ -304,28 +304,27 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
                         reader = new FileReader();
                     if (i < inputLength) {
                         reader.onloadend = function () {
-                            ang(imgContainerWrap).append($compile(ang('<div class="image-container"><img src="'
+                            var toAppend = $compile(ang('<div class="image-container"><img src="'
                             + reader.result + '">' +
                             '<div class="remove-icon-container" ng-click="aimCtrl.closeUploadedPicture($event)">' +
-                            '<i class="remove icon"></i></div></div>'))($scope));
-                            //var imageHeight = document.querySelector('.aim-images-preview').lastElementChild
-                            //        .firstElementChild.naturalHeight,
-                            //    imageWidth = document.querySelector('.aim-images-preview').lastElementChild
-                            //        .firstElementChild.naturalWidth,
-                            //    ratio = imageWidth / imageHeight;
-                            //if (ratio < 1.6) {
-                            //    ang(document.querySelector('.aim-images-preview').lastElementChild
-                            //        .firstElementChild).css({width: 'auto', height: '100%'});
-                            //}
+                            '<i class="remove icon"></i></div></div>'))($scope);
                             var item = ang('.aim-images-preview .image-container').length - 1;
                             aimCtrl.aim.pictures[item] = files[i];
-                            i++;
-                            if (i == inputLength) {
+
+                            if (i === 0 && !masonryGrid) {
+                                ang(imgContainerWrap).append(toAppend);
                                 masonryGrid = $('.aim-images-preview').masonry({
                                     // options...
-                                    itemSelector: '.image-container'
+                                    itemSelector: '.image-container',
+                                    columnWidth: 159,
+                                    transitionDuration: '0.3s'
                                 });
+                            } else {
+                                masonryGrid
+                                    .append(toAppend)
+                                    .masonry('appended', toAppend);
                             }
+                            i++;
                             recursion();
                         };
                         reader.readAsDataURL(files[i]);
@@ -340,6 +339,10 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
         aimCtrl.uploadAimPicture(file)
     };
 
+    aimCtrl.uploadStepPicture = function (index) {
+        ang('.step-picture' + index).click();
+    };
+
     aimCtrl.dropDown = function () {
         if (ang('.dropdown-add-picture').is(":visible")) {
             ang('.dropdown-add-picture').hide();
@@ -348,7 +351,7 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
         }
     };
 
-    aimCtrl.showDragAndDropField = function() {
+    aimCtrl.showDragAndDropField = function () {
         ang('.aim-images-preview').css('display', 'inline-block');
     };
 
@@ -372,18 +375,18 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
         }
         function deletePicture(target) {
             aimCtrl.aim.pictures.splice(getIndex(target), 1);
-            $(target)
-                .transition({
-                    animation: 'scale',
-                    duration: 200
-                });
+            //$(target)
+            //    .transition({
+            //        animation: 'scale',
+            //        duration: 200
+            //    });
             $timeout(function () {
                 target.remove();
                 masonryGrid.masonry();
                 if (ang('.aim-images-preview div').length === 0) {
                     ang('.aim-images-preview').hide();
                 }
-            }, 150);
+            }, 0);
             function getIndex(elem) {
                 var i = 0;
                 while ((elem = elem.previousElementSibling) != null) ++i;

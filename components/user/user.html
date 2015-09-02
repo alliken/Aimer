@@ -94,7 +94,8 @@
                         <section class="step-properties">
                             <i class="keyboard icon" ng-click="aimCtrl.showDescription()"></i>
                             <i class="list icon" ng-click="aimCtrl.addSubStep($index)"></i>
-                            <i class="photo icon"></i>
+                            <i class="photo icon" ng-click="aimCtrl.uploadStepPicture($index)"></i>
+                            <input class="step-picture{{$index}} hidden" type="file">
                             <i class="calendar icon" ng-click="aimCtrl.setDateTime($event, $index)"></i>
                             <div id="startGroup{{$index}}">
                                 <input type="text" class="start-date date hidden" placeholder="Start"
@@ -185,13 +186,13 @@
         </div>
     </div>
 
-    <div class="block">
-        <div class="head"></div>
-        <div>
+    <div class="aim-feed">
+        <section class="head"></section>
+        <section class="content">
             <div></div>
             <div></div>
             <div></div>
-        </div>
+        </section>
     </div>
 
 
