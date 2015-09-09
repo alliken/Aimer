@@ -13,8 +13,8 @@ $navigation: 23%;
 $main-margin-left: 3%;
 $main-width: 640px;
 
-html {
-  height: 2000px;
+body {
+  background-color: #F3F9F9;
 }
 
 //----------MODAL WINDOW CROP----------//
@@ -274,19 +274,12 @@ html {
   }
 }
 
-.drag-enter {
-  display: block;
-  border: 2px dashed black;
-  opacity: 0.3;
-  color: white;
-  background: none;
-}
-
 .main {
   @include inline-left;
   width: $main-width;
   margin-left: $main-margin-left;
   margin-top: 15px;
+  padding-bottom: 30px;
 
   .aim-add {
     width: 100%;
@@ -299,7 +292,7 @@ html {
     position: relative;
 
     .aim-add-button {
-      border: 1px solid #dfdfdf;
+      border: 1px solid #e0e6e6;
       border-radius: 3px;
       width: 100%;
       cursor: pointer;
@@ -313,7 +306,7 @@ html {
     .aim-add-form-container {
       display: none;
       width: 100%;
-      border: 1px solid #c3c3c3;
+      border: 1px solid #e0e6e6;
       border-radius: 5px;
       padding: 10px;
       box-sizing: border-box;
@@ -587,11 +580,109 @@ html {
       }
     }
   }
+
+  // LOADING AIMS
+  .aim-feed {
+    .aim {
+      margin-top: 16px;
+      width: 100%;
+      background-color: #ffffff;
+      height: auto;
+      display: block;
+
+      .head {
+        border-bottom: 1px solid #e2e2e2;
+        background-color: #ffffff;
+        padding: 10px;
+        .column-1, .column-2, .column-3, .head-image, .user-name {
+          @include inline-left();
+        }
+        .column-1, .column-2, .column-3 {
+          margin-left: 5px;
+        }
+        .column-2 {
+          width: 470px;
+        }
+        .column-3 {
+          width: 79px;
+          text-align: right;
+        }
+        .user-name {
+          .user-link {
+            color: #7a7a7a;
+          }
+          .first-last-name {
+            font-size: 1em;
+          }
+        }
+        .aim-name {
+          padding: 12px 0 0 0;
+          font-size: 1.1em;
+        }
+        .aim-edit-button {
+          color: #bcbcbc;
+          cursor: pointer;
+        }
+        .aim-date {
+          color: #7a7a7a;
+          margin-top: 16px;
+        }
+      }
+
+      .content {
+        padding: 10px 10px 10px 10px;
+      }
+
+      .bottom-content {
+        padding-bottom: 10px;
+        padding-right: 10px;
+        .comments, .repost, .like {
+          @include inline-right;
+          color: #cccccc;
+          cursor: pointer;
+          i:hover {
+            color: #5e5e5e;
+          }
+        }
+
+        .liked {
+          cursor: pointer;
+          @include inline-right;
+          color: #157564 !important;
+        }
+      }
+    }
+
+    .no-more-aims {
+      display: block;
+      width: 100%;
+      height: 150px;
+      text-align: center;
+      line-height: 150px;
+      color: #cccccc;
+    }
+
+    .aims-load-animation {
+      margin: 50px 300px;
+      display: block;
+      width: 40px;
+
+    }
+  }
+
 }
 
 // ACTIVE AND OTH STYLES
 .active-font-btn {
   background-color: #a4a4a4 !important;
+}
+
+.drag-enter {
+  display: block;
+  border: 2px dashed black;
+  opacity: 0.3;
+  color: white;
+  background: none;
 }
 
 .search-list-attach {

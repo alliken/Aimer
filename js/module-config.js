@@ -1,4 +1,4 @@
-var app = angular.module('aimer', ['ui.router']);//, 'uiRouterStyles']);
+var app = angular.module('aimer', ['ui.router', 'infinite-scroll']);//, 'uiRouterStyles']);
 
 //TODO comment
 app.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $controllerProvider) {
@@ -131,11 +131,8 @@ app.run(function ($rootScope, $location, $state, userStorageService) {
 
     $rootScope.$on("$stateChangeStart", function (event, toState, toParams) {
 
-        //TODO comment
         var isPublic = toState.data.isPublic;
-        //TODO comment
         var targetState = toState.name;
-        //TODO comment
         var authTime = 15; // minutes
         angular.element('.signup-please').hide();
 

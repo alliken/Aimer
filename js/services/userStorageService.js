@@ -22,18 +22,6 @@ app.factory('userStorageService', ['$rootScope', '$http', '$q', '$location',
                 '?' + new Date().getTime()
             };
             $rootScope.authenticated = true;
-            //$rootScope.name = data.name;
-            //$rootScope.email = data.email;
-            //$rootScope.login = data.login;
-            //$rootScope.userId = data.userId;
-            //$rootScope.largePicture = $rootScope.contextPath + (data.largePicture ?
-            //    (data.largePicture + (data.largePicture.indexOf("?") > 0 ? "&" : "?") +
-            //    new Date().getTime()) : (''));
-            //$rootScope.smallPicture = $rootScope.contextPath + (data.smallPicture ?
-            //    (data.smallPicture + (data.smallPicture.indexOf("?") > 0 ? "&" : "?") +
-            //    new Date().getTime()) : (''));
-            //$rootScope.backgroundPicturePath = $rootScope.contextPath + data.backgroundPicturePath +
-            //'?' + new Date().getTime();
         },
 
         setAnotherUser: function (data) {

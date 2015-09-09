@@ -12,7 +12,7 @@ function NewPassword(token, password) {
 }
 
 function Aim(id, title, description, dateOfStart, dateOfEnd, markedUsers,
-             commentsAccess, deliverableArea, access, stepSet) {
+             commentsAccess, access, stepSet) {
     this.id = id;
     this.title = title;
     this.description = description;
@@ -21,7 +21,7 @@ function Aim(id, title, description, dateOfStart, dateOfEnd, markedUsers,
 //    this.deletionDate = deletionDate;
     this.markedUsers = markedUsers;
     this.commentsAccess = commentsAccess;
-    this.deliverableArea = deliverableArea;
+  //  this.deliverableArea = deliverableArea;
     this.access = access;
     this.stepSet = stepSet;
 }

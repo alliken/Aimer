@@ -1,7 +1,7 @@
 app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $http, $compile) {
-    var aimCtrl = this,
-        ang = angular.element,
-        masonryGrid = undefined;
+    var aimCtrl = this
+        , ang = angular.element
+        , masonryGrid = undefined;
     aimCtrl.aim = {
         'pictures': []
     };
@@ -183,13 +183,6 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
         $('html, body').animate({scrollTop: 0}, 400);
         $('.aim-add-button').show();
         $('.aim-add-form-container').hide();
-        $scope.steps = [
-            {
-                'name': '',
-                'description': ''
-            }
-
-        ];
     };
 
     aimCtrl.setAttachedUser = function (userId, login) {
@@ -227,9 +220,9 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
     };
 
     aimCtrl.deleteStep = function () {
-        if ($scope.steps.length > 1) {
+        //if ($scope.steps.length > 1) {
             $scope.steps.pop();
-        }
+        //}
     };
 
     // STEP-PROPERTIES BUTTON FUNCTIONS....
@@ -281,9 +274,10 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
         }
 
         function insertPicture(file) {
-            var uploadedImages = ang('.aim-images-preview .image-container').length,
-                inputLength,
-                files;
+            var uploadedImages = ang('.aim-images-preview .image-container').length;
+            var inputLength;
+            var files;
+
             if (file) {
                 inputLength = file.length;
                 files = file;
@@ -308,7 +302,7 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
                             + reader.result + '">' +
                             '<div class="remove-icon-container" ng-click="aimCtrl.closeUploadedPicture($event)">' +
                             '<i class="remove icon"></i></div></div>'))($scope);
-                            var item = ang('.aim-images-preview .image-container').length - 1;
+                            var item = ang('.aim-images-preview .image-container').length;
                             aimCtrl.aim.pictures[item] = files[i];
 
                             if (i === 0 && !masonryGrid) {
@@ -337,10 +331,6 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
     aimCtrl.uploadAimPictureDrag = function () {
         var file = $scope.uploadedFile;
         aimCtrl.uploadAimPicture(file)
-    };
-
-    aimCtrl.uploadStepPicture = function (index) {
-        ang('.step-picture' + index).click();
     };
 
     aimCtrl.dropDown = function () {
@@ -375,11 +365,6 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
         }
         function deletePicture(target) {
             aimCtrl.aim.pictures.splice(getIndex(target), 1);
-            //$(target)
-            //    .transition({
-            //        animation: 'scale',
-            //        duration: 200
-            //    });
             $timeout(function () {
                 target.remove();
                 masonryGrid.masonry();
@@ -409,7 +394,7 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
      * @function subStepSet() - collect data from all steps substeps
      */
     aimCtrl.collectAimData = function () {
-        // TODO Aim end and start, Step picture
+
         var aimName = ang('.aim-name .name').html() || null,
             aimDescription = tinyMCE.activeEditor.getContent() || null,
             access = $('.ui.dropdown').dropdown('get text') || null,
@@ -511,23 +496,46 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
             }
         };
 
-        var getAimData = new Aim(null,
-            aimName,
-            aimDescription, null, null,
-            getAimAttachedUsers(), null, null,
-            null,
-            stepSet());
+        return {
+            "sessionObjectId": null,
+            "aim": new Aim(null,
+                aimName,
+                aimDescription, null, null,
+                getAimAttachedUsers(), null,
+                null,
+                stepSet())
+        };
 
-        console.log(getAimData);
-        return getAimData;
+        //return getAimData;
     };
 
     aimCtrl.saveAim = function () {
-        $http.post($rootScope.contextPath + $rootScope.restPath + '/users/aims?isDirty=true', aimCtrl.collectAimData())
+        var data = new FormData();
+        for (var i = 0; i < aimCtrl.aim.pictures.length; i++) {
+            data.append("photos", aimCtrl.aim.pictures[i]);
+        }
+        data.append('aimSessionDto', JSON.stringify(aimCtrl.collectAimData()));
+
+        $http({
+            method: 'POST',
+            url: $rootScope.contextPath + $rootScope.restPath + '/users/aims',
+            headers: {'Content-Type': undefined},
+            data: data,
+            transformRequest: function (data) {
+                return data;
+            }
+        })
             .success(function () {
-                console.log('good');
-            });
+                aimCtrl.hideAddAim();
+            })
     };
+
+    //aimCtrl.saveAim = function () {
+    //    $http.post($rootScope.contextPath + $rootScope.restPath + '/users/aims?isDirty=true', aimCtrl.collectAimData())
+    //        .success(function () {
+    //            aimCtrl.hideAddAim();
+    //        });
+    //};
 
     (function semanticUI() {
         ang('.ui.dropdown')

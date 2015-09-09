@@ -1,5 +1,5 @@
-html {
-  height: 2000px; }
+body {
+  background-color: #F3F9F9; }
 
 .modal-box {
   position: fixed;
@@ -199,19 +199,13 @@ html {
     .wrapper .navigation .unscrolled {
       position: inherit; }
 
-.drag-enter {
-  display: block;
-  border: 2px dashed black;
-  opacity: 0.3;
-  color: white;
-  background: none; }
-
 .main {
   display: inline-block;
   float: left;
   width: 640px;
   margin-left: 3%;
-  margin-top: 15px; }
+  margin-top: 15px;
+  padding-bottom: 30px; }
   .main .aim-add {
     width: 100%;
     background-color: #ffffff;
@@ -222,7 +216,7 @@ html {
     line-height: 30px;
     position: relative; }
     .main .aim-add .aim-add-button {
-      border: 1px solid #dfdfdf;
+      border: 1px solid #e0e6e6;
       border-radius: 3px;
       width: 100%;
       cursor: pointer; }
@@ -233,7 +227,7 @@ html {
     .main .aim-add .aim-add-form-container {
       display: none;
       width: 100%;
-      border: 1px solid #c3c3c3;
+      border: 1px solid #e0e6e6;
       border-radius: 5px;
       padding: 10px;
       box-sizing: border-box; }
@@ -441,9 +435,77 @@ html {
               margin: 0 0 0 1px; }
           .main .aim-add .aim-add-form-container .aim-images-preview .image-container .remove-icon-container:hover {
             background-color: rgba(0, 0, 0, 0.8); }
+  .main .aim-feed .aim {
+    margin-top: 16px;
+    width: 100%;
+    background-color: #ffffff;
+    height: auto;
+    display: block; }
+    .main .aim-feed .aim .head {
+      border-bottom: 1px solid #e2e2e2;
+      background-color: #ffffff;
+      padding: 10px; }
+      .main .aim-feed .aim .head .column-1, .main .aim-feed .aim .head .column-2, .main .aim-feed .aim .head .column-3, .main .aim-feed .aim .head .head-image, .main .aim-feed .aim .head .user-name {
+        display: inline-block;
+        float: left; }
+      .main .aim-feed .aim .head .column-1, .main .aim-feed .aim .head .column-2, .main .aim-feed .aim .head .column-3 {
+        margin-left: 5px; }
+      .main .aim-feed .aim .head .column-2 {
+        width: 470px; }
+      .main .aim-feed .aim .head .column-3 {
+        width: 79px;
+        text-align: right; }
+      .main .aim-feed .aim .head .user-name .user-link {
+        color: #7a7a7a; }
+      .main .aim-feed .aim .head .user-name .first-last-name {
+        font-size: 1em; }
+      .main .aim-feed .aim .head .aim-name {
+        padding: 12px 0 0 0;
+        font-size: 1.1em; }
+      .main .aim-feed .aim .head .aim-edit-button {
+        color: #bcbcbc;
+        cursor: pointer; }
+      .main .aim-feed .aim .head .aim-date {
+        color: #7a7a7a;
+        margin-top: 16px; }
+    .main .aim-feed .aim .content {
+      padding: 10px 10px 10px 10px; }
+    .main .aim-feed .aim .bottom-content {
+      padding-bottom: 10px;
+      padding-right: 10px; }
+      .main .aim-feed .aim .bottom-content .comments, .main .aim-feed .aim .bottom-content .repost, .main .aim-feed .aim .bottom-content .like {
+        display: inline-block;
+        float: right;
+        color: #cccccc;
+        cursor: pointer; }
+        .main .aim-feed .aim .bottom-content .comments i:hover, .main .aim-feed .aim .bottom-content .repost i:hover, .main .aim-feed .aim .bottom-content .like i:hover {
+          color: #5e5e5e; }
+      .main .aim-feed .aim .bottom-content .liked {
+        cursor: pointer;
+        display: inline-block;
+        float: right;
+        color: #157564 !important; }
+  .main .aim-feed .no-more-aims {
+    display: block;
+    width: 100%;
+    height: 150px;
+    text-align: center;
+    line-height: 150px;
+    color: #cccccc; }
+  .main .aim-feed .aims-load-animation {
+    margin: 50px 300px;
+    display: block;
+    width: 40px; }
 
 .active-font-btn {
   background-color: #a4a4a4 !important; }
+
+.drag-enter {
+  display: block;
+  border: 2px dashed black;
+  opacity: 0.3;
+  color: white;
+  background: none; }
 
 .search-list-attach {
   background-color: white;
@@ -474,5 +536,3 @@ html {
     color: #08033e; }
   .search-list-attach .advanced-search:hover {
     color: #78c4ff; }
-
-/*# sourceMappingURL=user.css.map */

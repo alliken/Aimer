@@ -94,8 +94,7 @@
                         <section class="step-properties">
                             <i class="keyboard icon" ng-click="aimCtrl.showDescription()"></i>
                             <i class="list icon" ng-click="aimCtrl.addSubStep($index)"></i>
-                            <i class="photo icon" ng-click="aimCtrl.uploadStepPicture($index)"></i>
-                            <input class="step-picture{{$index}} hidden" type="file">
+                            <input class="picture step-picture{{$index}} hidden" type="file">
                             <i class="calendar icon" ng-click="aimCtrl.setDateTime($event, $index)"></i>
                             <div id="startGroup{{$index}}">
                                 <input type="text" class="start-date date hidden" placeholder="Start"
@@ -186,13 +185,53 @@
         </div>
     </div>
 
-    <div class="aim-feed">
-        <section class="head"></section>
-        <section class="content">
-            <div></div>
-            <div></div>
-            <div></div>
-        </section>
+    <div class="aim-feed" ng-controller="loadAimsCtrl as loadAimsCtrl">
+        <div class="aim" ng-repeat="sortedAims in loadAimsCtrl.sortedAims">
+            <section class="head">
+                <div class="column-1">
+                    <img class="head-image" ng-src="{{sortedAims.userProfilePicture || currentUser.smallPicture}}">
+                </div>
+                <div class="column-2">
+                    <div class="user-name">
+                        <a class="user-link" href="#">
+                            <span class="first-last-name">
+                                {{sortedAims.userName || currentUser.name}}
+                            </span>
+                            <span class="login">{{sortedAims.userLogin || currentUser.login}}</span></a>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="aim-name">{{sortedAims.title}}</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="column-3">
+                    <div class="aim-edit-button">
+                        <i class="write icon"></i>
+                    </div>
+                    <div class="aim-date">{{sortedAims.dateOfAdding}}</div>
+                </div>
+                <div class="clear"></div>
+            </section>
+            <section class="content">
+                <div class="description" ng-bind-html="sortedAims.description"></div>
+                <div class="aim-images" masonry-grid>
+                    <img class="image-container" ng-repeat="images in sortedAims.picturesPathList"
+                         ng-src="{{'/aimer' + images}}" style="float: left; width: 200px;">
+                </div>
+                <div class="clear"></div>
+            </section>
+            <section class="bottom-content">
+                <div ng-class="{'like': !sortedAims.isUserLiked, 'liked': sortedAims.isUserLiked}"
+                     ng-click="loadAimsCtrl.likeAim($index)"><i class="heart icon"></i>{{sortedAims.likesCount}}</div>
+                <div class="repost"><i class="reply icon"></i></div>
+                <div class="comments"><i class="comment icon"></i></div>
+
+                <div class="clear"></div>
+            </section>
+        </div>
+        <div infinite-scroll="loadAimsCtrl.getAims()"
+             infinite-scroll-disabled='loadAimsCtrl.busyDataLoading'></div>
+        <div class="no-more-aims" ng-show="loadAimsCtrl.noMoreAims">Nunc ac sapien a dolor cursus convallis</div>
+        <div class="ui active inline loader aims-load-animation" ng-show="loadAimsCtrl.loading"></div>
     </div>
 
 

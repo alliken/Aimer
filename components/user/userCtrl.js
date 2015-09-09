@@ -9,22 +9,13 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
     userCtrl.unFollow = followService.unFollow;
     $scope.followingFollowers = {};
     $scope.friends = [];
-    $scope.steps = [
-        {
-            'name': '',
-            'description': ''
-            //'subStep': [
-            //    {
-            //        'name': 'sdsdds'
-            //    }
-            //]
-        }
-    ];
+    $scope.steps = [];
 
-
-    //MENU LOADING WHEN MAIN IS READY
+    /**
+     * Loads left-aligned menu to user page
+     */
     (function loadMenu() {
-        var nav = $('.navigation');
+        var nav = ang('.navigation');
         nav.text('');
         if (nav.html() == "" || !nav.hasClass('user_menu') || nav.hasClass('settings_menu')) {
             $http.get($rootScope.contextPath + '/components/user/user_menu.html')
@@ -49,7 +40,9 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
         }
     })();
 
-    //BACKGROUND LOADING FUNCTION
+    /**
+     * Loads background html and sets
+     */
     (function loadBackground() {
         var container = $('.background-container');
 
@@ -65,7 +58,10 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
         }
     })();
 
-    //GET FOLLOWING/FOLLOWERS QUANTITY
+    /**
+     * Gets current or another user following/followers quantity by id
+     * @param id
+     */
     function getFollowingFollowers(id) {
         $http.get($rootScope.contextPath + $rootScope.restPath + '/users/' + id + '/actions/getAimAndFollowersCount')
             .success(function (data) {
@@ -77,7 +73,7 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
             });
     }
 
-    //CHECK IF USER IS CURRENT. IF NOT - LOAD ANOTER USER DATA
+    //CHECK IF USER IS CURRENT. IF NOT - LOAD ANOTHER USER DATA
     (function checkIfUserCurrent() {
         if ($stateParams && ($rootScope.currentUser == undefined || $stateParams.user != $rootScope.currentUser.login)) {
             userStorageService.getAnotherUser($stateParams.user)
@@ -242,7 +238,15 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
         });
     };
 
-    // UPLOAD AVATAR TO CLIENT
+    /**
+     * Uploads user photo (avatar) to client.
+     *
+     * @param file - if it exists function insert picture into preview pane and asks user to select edges to cut.
+     * This param transfers when user used drag&drop.
+     *
+     * @function {insertPictureDrag} inserts dragged picture in preview pane
+     * @function {insertPicture} inserts input uploaded image in preview pane
+     */
     userCtrl.uploadPhoto = function (file) {
 
         if (file) {
@@ -329,7 +333,9 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
         }
     };
 
-    // SEND AVATAR TO SERVER
+    /**
+     * Sends client uploaded image (avatar) and four crop points to server
+     */
     userCtrl.sendPhoto = function () {
         var input = document.getElementById('image-file');
 
