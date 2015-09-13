@@ -455,10 +455,14 @@ body {
       .main .aim-feed .aim .head .column-3 {
         width: 79px;
         text-align: right; }
-      .main .aim-feed .aim .head .user-name .user-link {
-        color: #7a7a7a; }
-      .main .aim-feed .aim .head .user-name .first-last-name {
-        font-size: 1em; }
+      .main .aim-feed .aim .head .head-image {
+        cursor: pointer; }
+      .main .aim-feed .aim .head .user-name {
+        cursor: pointer; }
+        .main .aim-feed .aim .head .user-name .user-link {
+          color: #7a7a7a; }
+        .main .aim-feed .aim .head .user-name .first-last-name {
+          font-size: 1em; }
       .main .aim-feed .aim .head .aim-name {
         padding: 12px 0 0 0;
         font-size: 1.1em; }
@@ -477,14 +481,16 @@ body {
         display: inline-block;
         float: right;
         color: #cccccc;
-        cursor: pointer; }
+        cursor: pointer;
+        margin-right: 5px; }
         .main .aim-feed .aim .bottom-content .comments i:hover, .main .aim-feed .aim .bottom-content .repost i:hover, .main .aim-feed .aim .bottom-content .like i:hover {
           color: #5e5e5e; }
-      .main .aim-feed .aim .bottom-content .liked {
+      .main .aim-feed .aim .bottom-content .liked, .main .aim-feed .aim .bottom-content .reposted {
         cursor: pointer;
         display: inline-block;
         float: right;
-        color: #157564 !important; }
+        color: #157564 !important;
+        margin-right: 5px; }
   .main .aim-feed .no-more-aims {
     display: block;
     width: 100%;

@@ -3,7 +3,7 @@ app.directive('masonryGrid', function ($timeout) {
 
         $timeout(function () {
             delay();
-        }, 2000);
+        }, 1000);
 
         function delay() {
             var ang = angular.element;

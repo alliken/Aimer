@@ -116,7 +116,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locatio
             controller: 'userCtrl as userCtrl',
             data: {
                 css: 'components/user/user.css',
-                //js: 'components/user/userCtrl.js',
                 showIfAuth: true,
                 isPublic: true
             }
@@ -128,13 +127,14 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locatio
 
 //TODO comment
 app.run(function ($rootScope, $location, $state, userStorageService) {
-
-    $rootScope.$on("$stateChangeStart", function (event, toState, toParams) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
         var isPublic = toState.data.isPublic;
         var targetState = toState.name;
         var authTime = 15; // minutes
-        angular.element('.signup-please').hide();
+        var ang = angular.element;
+        ang('.signup-please').hide();
+        if (targetState != 'user') $rootScope.anotherUser = false;
 
         //TODO подумать над синхронизацией с сервером. смотреть пример с Твиттером и ВК
         if ($rootScope.authTime) {
@@ -142,6 +142,21 @@ app.run(function ($rootScope, $location, $state, userStorageService) {
             if (($rootScope.currentTime - $rootScope.authTime) > authTime * 60 * 1000) {
                 $rootScope.prevented = false;
                 $rootScope.authenticated = false;
+            }
+        }
+
+        if (targetState === 'user') {
+            if (!$rootScope.preventedAnotherUser) {
+                event.preventDefault();
+                userStorageService.getAnotherUser(toParams.user)
+                    .then(function () {
+                        $rootScope.preventedAnotherUser = true;
+                        $state.go(toState, toParams);
+                    }, function () {
+                        $rootScope.preventedAnotherUser = false;
+                        $location.path('404');
+                    });
+                return;
             }
         }
 
@@ -160,28 +175,32 @@ app.run(function ($rootScope, $location, $state, userStorageService) {
             $('.navigation').html('');
         }
 
-        if (!$rootScope.prevented) {
+        if (!$rootScope.preventedCurrentUser) {
             event.preventDefault();
             userStorageService.getCurrentUser()
                 .then(function () {
                     $rootScope.authTime = new Date().getTime();
-                    $rootScope.prevented = true;
+                    $rootScope.preventedCurrentUser = true;
                     if (!toState.data.showIfAuth) {
                         $state.go('home');
                         return;
                     }
                     $state.go(toState, toParams);
                 }, function () {
-                    $rootScope.prevented = true;
+                    $rootScope.preventedCurrentUser = true;
                     if (!isPublic && (targetState != 'login')) {
                         $state.go('login');
                     } else {
                         $state.go(toState, toParams);
                     }
                 })
-        } else if ($rootScope.prevented && !isPublic && (targetState !== 'login')) {
+        } else if ($rootScope.preventedCurrentUser && !isPublic && (targetState !== 'login')) {
             event.preventDefault();
             $state.go('login');
         }
     });
+
+    $rootScope.$on('$stateChangeSuccess', function () {
+        $rootScope.preventedAnotherUser = false;
+    })
 });

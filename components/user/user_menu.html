@@ -1,17 +1,18 @@
 <img class="user-avatar" ng-src="{{anotherUser.largePicture || currentUser.largePicture}}"
      image-drop on-image-drop="userCtrl.uploadPhotoDrag()">
 
-<div class="fluid ui button upload-photo" ng-click="userCtrl.uploadPhoto()" ng-hide="anotherUser">
+<div class="fluid ui button upload-photo" ng-click="userCtrl.uploadPhoto()"
+     ng-show="anotherUser.userId === currentUser.userId">
     <input id="file" name="file" type="file" style="display: none">
     Change photo
 </div>
 
 <div class="follow-button-container">
     <div class="fluid ui button follow-button" ng-click="userCtrl.follow(anotherUser.userId)"
-         ng-show="anotherUser && !anotherUser.isFollowing">
+         ng-show="anotherUser.userId && (!anotherUser.isFollowing && (currentUser.userId != anotherUser.userId))">
          Follow
     </div>
-    <div class="fluid ui button following-button" ng-click="" ng-show="anotherUser.isFollowing"
+    <div class="fluid ui button following-button" ng-show="anotherUser.isFollowing"
          ng-mouseover="userCtrl.showUnfollowButton()">
         <i class="checkmark icon"></i> Following
     </div>

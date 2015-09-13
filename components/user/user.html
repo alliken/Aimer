@@ -56,7 +56,8 @@
 
 <div class="main">
 
-    <div class="aim-add" ng-hide="anotherUser" ng-controller="aimCtrl as aimCtrl">
+    <div class="aim-add" ng-show="anotherUser.userId === currentUser.userId"
+         ng-controller="aimCtrl as aimCtrl">
         <div class="aim-add-button" ng-hide="expandFormAim" ng-click="aimCtrl.expandAddAim()">
             <i class="large plus icon"></i>
             <span>New AIM</span>
@@ -189,15 +190,17 @@
         <div class="aim" ng-repeat="sortedAims in loadAimsCtrl.sortedAims">
             <section class="head">
                 <div class="column-1">
-                    <img class="head-image" ng-src="{{sortedAims.userProfilePicture || currentUser.smallPicture}}">
+                    <img class="head-image"
+                         ng-click="loadAimsCtrl.redirectToUser(sortedAims.userLogin)"
+                         ng-src="{{sortedAims.userProfilePicture || anotherUser.smallPicture}}">
                 </div>
                 <div class="column-2">
                     <div class="user-name">
-                        <a class="user-link" href="#">
+                        <a class="user-link" href="#" ng-click="loadAimsCtrl.redirectToUser(sortedAims.userLogin)">
                             <span class="first-last-name">
-                                {{sortedAims.userName || currentUser.name}}
+                                {{sortedAims.userName || anotherUser.name}}
                             </span>
-                            <span class="login">{{sortedAims.userLogin || currentUser.login}}</span></a>
+                            <span class="login">{{sortedAims.userLogin || anotherUser.login}}</span></a>
                     </div>
                     <div class="clear"></div>
                     <div class="aim-name">{{sortedAims.title}}</div>
@@ -220,9 +223,13 @@
                 <div class="clear"></div>
             </section>
             <section class="bottom-content">
-                <div ng-class="{'like': !sortedAims.isUserLiked, 'liked': sortedAims.isUserLiked}"
+                <div class="like"
+                     ng-class="{'like': !sortedAims.isUserLiked, 'liked': sortedAims.isUserLiked}"
                      ng-click="loadAimsCtrl.likeAim($index)"><i class="heart icon"></i>{{sortedAims.likesCount}}</div>
-                <div class="repost"><i class="reply icon"></i></div>
+                <div class="repost"
+                     ng-class="{'repost': !sortedAims.isUserReposted, 'reposted': sortedAims.isUserReposted}"
+                     ng-hide="currentUser.login === anotherUser.login"
+                     ng-click="loadAimsCtrl.repost($index)"><i class="reply icon"></i>{{sortedAims.repostCount}}</div>
                 <div class="comments"><i class="comment icon"></i></div>
 
                 <div class="clear"></div>

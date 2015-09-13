@@ -1,12 +1,13 @@
 // USER INTERFACE CONTROLLER
 app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $stateParams, followService,
                                      userStorageService, $location) {
-    var userCtrl = this,
-        ang = angular.element;
+    var userCtrl = this;
+    var ang = angular.element;
     $scope.user = $rootScope.currentUser;
     $scope.isFirstUpload = 0;
     userCtrl.follow = followService.follow;
     userCtrl.unFollow = followService.unFollow;
+    followService.checkIsFollowing($rootScope.anotherUser.userId); // Checks if current user follows another
     $scope.followingFollowers = {};
     $scope.friends = [];
     $scope.steps = [];
@@ -62,7 +63,8 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
      * Gets current or another user following/followers quantity by id
      * @param id
      */
-    function getFollowingFollowers(id) {
+    (function getFollowingFollowers() {
+        var id = $rootScope.anotherUser.userId || $rootScope.currentUser.userId;
         $http.get($rootScope.contextPath + $rootScope.restPath + '/users/' + id + '/actions/getAimAndFollowersCount')
             .success(function (data) {
                 $scope.followingFollowers = {
@@ -71,26 +73,26 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
                     aim: data.aim
                 };
             });
-    }
+    })();
 
     //CHECK IF USER IS CURRENT. IF NOT - LOAD ANOTHER USER DATA
-    (function checkIfUserCurrent() {
-        if ($stateParams && ($rootScope.currentUser == undefined || $stateParams.user != $rootScope.currentUser.login)) {
-            userStorageService.getAnotherUser($stateParams.user)
-                .then(function () {
-                    getFollowingFollowers($rootScope.anotherUser.userId);
-                    if ($rootScope.authenticated) {
-                        followService.checkIsFollowing($rootScope.anotherUser.userId);
-                    }
-                    showSignUpMessage();
-                }, function () {
-                    $location.path('404');
-                })
-        } else {
-            getFollowingFollowers($rootScope.currentUser.userId);
-            $rootScope.anotherUser = false;
-        }
-    })();
+    //(function checkIfUserCurrent() {
+    //    if ($stateParams && ($rootScope.currentUser == undefined || $stateParams.user != $rootScope.currentUser.login)) {
+    //        userStorageService.getAnotherUser($stateParams.user)
+    //            .then(function () {
+    //                getFollowingFollowers($rootScope.anotherUser.userId);
+    //                if ($rootScope.authenticated) {
+    //                    followService.checkIsFollowing($rootScope.anotherUser.userId);
+    //                }
+    //                showSignUpMessage();
+    //            }, function () {
+    //                $location.path('404');
+    //            })
+    //    } else {
+    //        getFollowingFollowers($rootScope.currentUser.userId);
+    //        $rootScope.anotherUser = false;
+    //    }
+    //})();
 
     function showSignUpMessage() {
         if (!$rootScope.authenticated && ($stateParams.user != 404)) {

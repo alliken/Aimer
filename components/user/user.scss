@@ -607,7 +607,11 @@ body {
           width: 79px;
           text-align: right;
         }
+        .head-image {
+          cursor: pointer;
+        }
         .user-name {
+          cursor: pointer;
           .user-link {
             color: #7a7a7a;
           }
@@ -640,15 +644,17 @@ body {
           @include inline-right;
           color: #cccccc;
           cursor: pointer;
+          margin-right: 5px;
           i:hover {
             color: #5e5e5e;
           }
         }
 
-        .liked {
+        .liked, .reposted {
           cursor: pointer;
           @include inline-right;
           color: #157564 !important;
+          margin-right: 5px;
         }
       }
     }

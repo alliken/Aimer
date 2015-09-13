@@ -19,7 +19,6 @@ app.lazy.controller('pswRecoveryCtrl', function ($scope, $rootScope, $http, $loc
     };
     $scope.isMatchFunc = function () {
         $scope.isMatch = $scope.recovery.password == $scope.confirmPassword;
-        console.log('isMatch: ' + $scope.isMatch + '; ' + 'confirmPassword: ' + $scope.confirmPassword);
     };
 
     $scope.sendEmail = function () {

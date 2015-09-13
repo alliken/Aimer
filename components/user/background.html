@@ -5,7 +5,7 @@
      image-drop on-image-drop="userCtrl.uploadBackgroundDrag()">
     <div class="edit-background-hover" ng-mouseover="userCtrl.showEditBackgroundPanel()"
          ng-mouseleave="userCtrl.hideEditBackgroundPanel()"
-         ng-show="authenticated && !anotherUser">
+         ng-show="authenticated && anotherUser.userId === currentUser.userId">
         <div class="edit-background-panel">
             <i class="write icon edit-background" ng-click="userCtrl.uploadBackground()"></i>
         </div>
