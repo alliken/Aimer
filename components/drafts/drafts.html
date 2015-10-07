@@ -1,0 +1,125 @@
+<div class="main" ng-controller="draftsCtrl as draftsCtrl">
+
+    <div class="aim-feed">
+        <div class="aim" ng-repeat="sortedDrafts in draftsCtrl.sortedDrafts track by $index">
+            <section class="head">
+                <div class="column-1">
+                    <img class="head-image"
+                         ng-click="draftsCtrl.redirectToUser(sortedDrafts.aim.userLogin)"
+                         ng-src="{{currentUser.smallPicture}}">
+                </div>
+                <div class="column-2">
+                    <div class="user-name">
+                        <a class="user-link" href="#" ng-click="draftsCtrl.redirectToUser(sortedDrafts.aim.userLogin)">
+                            <span class="first-last-name">
+                                {{currentUser.name}}
+                            </span>
+                            <span class="login">{{currentUser.login}}</span></a>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="aim-name"
+                         ng-model="sortedDrafts.aim.title"
+                         content-editable="">{{sortedDrafts.aim.title}}</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="column-3">
+                    <div class="aim-edit-button"
+                         ng-hide="sortedDrafts.aim.isEditing"
+                         ng-click="draftsCtrl.editAim($index)">
+                        <i class="write icon"></i>
+                    </div>
+                    <div class="aim-date">{{sortedDrafts.aim.dateOfAdding}}</div>
+                </div>
+                <div class="clear"></div>
+            </section>
+            <section class="content">
+                <div class="description" ng-bind-html="sortedDrafts.aim.description"></div>
+                <div class="steps" ng-hide="!sortedDrafts.aim.stepsCount">
+                    <div class="step" ng-repeat="step in sortedDrafts.aim.steps track by $index"
+                         ng-drop="true"
+                         ng-drop-success="draftsCtrl.onDropComplete($index, $data, $event, $parent.$index)">
+
+                        <div class="drag-container" ng-drag="true" ng-drag-data="{{$index}}">
+                            <div class="step-name inner"
+                                 ng-cancel-drag
+                                 ng-model="step.title"
+                                 content-editable=""></div>
+                            <ul class="substeps inner" ng-cancel-drag>
+                                <li ng-repeat="subStep in step.subSteps track by $index" ng-cancel-drag>
+                                    <div class="substep-name"
+                                         ng-cancel-drag
+                                         ng-model="subStep.title"
+                                         content-editable=""></div>
+                                    <div class="delete-substep"
+                                         ng-cancel-drag
+                                         ng-click="draftsCtrl.removeSubStep($parent.$parent.$index,
+                                         $parent.$index, $index)"
+                                         ng-show="sortedDrafts.aim.isEditing">
+                                        <i class="remove icon"></i>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="drag-button" ng-show="sortedDrafts.aim.isEditing"><i class="sidebar icon"></i></div>
+                            <div class="remove-icon"
+                                 ng-cancel-drag
+                                 ng-show="sortedDrafts.aim.isEditing"
+                                 ng-click="draftsCtrl.removeStep($parent.$index, $index)">
+                                <i class="remove icon"></i>
+                            </div>
+                            <div class="add-substep"
+                                 ng-cancel-drag
+                                 ng-show="sortedDrafts.aim.isEditing"
+                                 ng-click="draftsCtrl.addSubStep($parent.$index, $index)">
+                                <i class="list layout icon"></i>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <button class="ui grey basic button add-step"
+                        ng-click="draftsCtrl.addStep($index)"
+                        ng-show="sortedDrafts.aim.isEditing">New Step</button>
+                <div class="clear"></div>
+                <div class="aim-images"
+                     ng-click="draftsCtrl.deleteImage($event, $index)"
+                     image-drop
+                     level-drop="1"
+                     on-image-drop="draftsCtrl.uploadEditableAimPictureDrag($index)">
+                    <div ng-repeat="image in sortedDrafts.aim.aimPictures" image-grid="">
+                        <img class="image"
+                             ng-src="{{contextPath + image.picturePath}}">
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </section>
+            <!--<section class="bottom-content" ng-hide="draftsCtrl.editableAim">-->
+                <!--<div class="load-steps"-->
+                     <!--ng-hide="!sortedDrafts.aim.stepsCount"-->
+                     <!--ng-click="draftsCtrl.getSteps($index)">{{sortedDrafts.aim.stepsCount}} Steps</div>-->
+
+                <!--<div class="clear"></div>-->
+            <!--</section>-->
+
+            <div class="ui teal basic button"
+                 style="float: right;"
+                 ng-click="draftsCtrl.updateAim($index)">Save</div>
+            <div class="ui orange basic button"
+                 style="float: right;"
+                 ng-click="draftsCtrl.deleteDraft($index)">Delete</div>
+            <div class="ui teal basic button add-picture"
+                 ng-click="draftsCtrl.uploadEditableAimPicture(undefined, $index)"
+                 ng-show="sortedDrafts.aim.isEditing"
+                 style="float: right;">
+                <i class="photo icon"></i>
+                Add picture
+                <input class="aim-picture{{$index}} hidden" type="file" multiple>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div infinite-scroll="draftsCtrl.getDrafts()"
+             infinite-scroll-disabled='draftsCtrl.busyDataLoading'></div>
+        <div class="no-more-aims" ng-show="draftsCtrl.noMoreDrafts">Nunc ac sapien a dolor cursus convallis</div>
+        <div class="ui active inline loader aims-load-animation" ng-show="draftsCtrl.loading"></div>
+    </div>
+
+</div>
