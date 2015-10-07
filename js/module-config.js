@@ -113,7 +113,6 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locatio
         .state('drafts', {
             url: '/drafts',
             templateUrl: 'components/drafts/drafts.html',
-            //controller: 'draftsCtrl',
             data: {
                 showIfAuth: true,
                 isPublic: false

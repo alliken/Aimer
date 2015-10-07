@@ -1,5 +1,5 @@
 app.controller('loadAimsCtrl', function ($scope, $rootScope, $http, $sce, $timeout, $location, Steps, Aims,
-                                         $compile, $q) {
+                                         $compile, $q, photoGrid) {
     var loadAimsCtrl = this;
     var ang = angular.element;
     loadAimsCtrl.sortedAims = [];
@@ -8,28 +8,6 @@ app.controller('loadAimsCtrl', function ($scope, $rootScope, $http, $sce, $timeo
     loadAimsCtrl.busyDataLoading = false;
     loadAimsCtrl.isEditing = false;
     loadAimsCtrl.addedPictures = [];
-
-    var applyPhotoGrid = function (editableAim) {
-        var randomBoolean = [
-            function () {
-                return Math.random() < .5; // Readable, succint
-            },
-
-            function () {
-                return !(Math.random() + .5 | 0); // (shortcut for Math.round)
-            },
-
-            function () {
-                return !(+new Date() % 2); // faux-randomness
-            }
-        ];
-        $(ang(editableAim).find('.aim-images')).jPhotoGrid({
-            margin: 1,
-            isFirstRowBig: randomBoolean,
-            isCentred: true,
-            isSmallImageStretched: true
-        });
-    };
 
     /**
      * Processes and returns aims array received from server
@@ -336,7 +314,7 @@ app.controller('loadAimsCtrl', function ($scope, $rootScope, $http, $sce, $timeo
         }
 
         ang(target).remove();
-        applyPhotoGrid(editableAim);
+        photoGrid.apply(editableAim);
     };
 
     loadAimsCtrl.uploadEditableAimPicture = function (file, aimIndex) {
@@ -386,7 +364,8 @@ app.controller('loadAimsCtrl', function ($scope, $rootScope, $http, $sce, $timeo
                             i++;
 
                             if (i === inputLength) {
-                                applyPhotoGrid(editableAim);
+                                //applyPhotoGrid(editableAim);
+                                photoGrid.apply(editableAim);
                             }
 
                             recursion();
