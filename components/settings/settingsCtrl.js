@@ -1,13 +1,13 @@
 //SETTINGS CONTROLLER
-app.lazy.controller('settingsCtrl', function ($scope, $http, $rootScope, $compile, $state) {
-
+app.lazy.controller('settingsCtrl', function ($scope, $http, $rootScope, $compile, $state, Users) {
+    var ang = angular.element;
     $scope.user = $rootScope.currentUser;
     $scope.unique = true;
 
     // UPDATE USER INFORMATION
     $scope.updateInfo = function () {
         if (!$scope.update.$invalid && $scope.unique) {
-            var users = new User();         // dto.js object
+            var users = new User();
             users.userId = $rootScope.userId;
             users.name = $scope.user.name;
             users.login = $scope.user.login;
@@ -15,10 +15,10 @@ app.lazy.controller('settingsCtrl', function ($scope, $http, $rootScope, $compil
 
             $rootScope.currentUser.login = $scope.user.login;
 
-            $http.put($rootScope.contextPath + $rootScope.restPath + '/users', users)
-                .success(function () {
-                    saved()
-                });
+            Users.user().update({}, users, function () {
+                ang('.save').removeClass('blue').addClass('green').html('<i class="checkmark icon"></i>Saved');
+            });
+
         }
     };
 
@@ -30,15 +30,14 @@ app.lazy.controller('settingsCtrl', function ($scope, $http, $rootScope, $compil
                 'oldPassword': $scope.user.oldPassword,
                 'newPassword': $scope.user.password
             };
-            $http.put($rootScope.contextPath + $rootScope.restPath + '/users/actions/changePassword', $scope.password)
-                .success(function () {
-                    saved()
-                })
-                .error(function (data) {
-                    if (data.statusCode == 'PasswordMatchingException') {
-                        $('.warning').css('display', 'block');
-                    }
-                });
+
+            Users.password.change({}, $scope.password, function () {
+                ang('.save').removeClass('blue').addClass('green').html('<i class="checkmark icon"></i>Saved');
+            }, function (data) {
+                if (data.data.statusCode == 'PasswordMatchingException') {
+                    ang('.warning').css('display', 'block');
+                }
+            });
         }
     };
 
@@ -55,26 +54,50 @@ app.lazy.controller('settingsCtrl', function ($scope, $http, $rootScope, $compil
             if (!valid) {
                 value[param] = $scope.user[param];
                 if ($scope.user[param] !== $rootScope[param]) {
-                    param = param.toLowerCase().replace(/\b[a-z]/g, function (letter) {
-                        return letter.toUpperCase();
+                    param = param.toLowerCase();
+                    //    .replace(/\b[a-z]/g, function (letter) {
+                    //    return letter.toUpperCase();
+                    //});
+
+                    //Users[param].isUnique(value, function (data) {
+                    //    console.log(data);
+                    //    if (data) {
+                    //        alreadyExist.css('display', 'none');
+                    //        message.css('display', 'none');
+                    //        good.css('display', 'block');
+                    //        $scope.unique = true;
+                    //    }
+                    //    else {
+                    //        alreadyExist.css('display', 'block');
+                    //        message.css('display', 'none');
+                    //        good.css('display', 'none');
+                    //        $scope.unique = false;
+                    //    }
+                    //});
+
+                    Users[param].isUnique(value).$promise.then(function (data) {
+                        data.$promise.then(function (data) {
+                            console.log(data)
+                        });
+
                     });
 
-                    $http.get($rootScope.contextPath + $rootScope.restPath +
-                                                                '/users/actions/is' + param + 'Unique', {params: value})
-                        .success(function (data) {
-                            if (data) {
-                                alreadyExist.css('display', 'none');
-                                message.css('display', 'none');
-                                good.css('display', 'block');
-                                $scope.unique = true;
-                            }
-                            else {
-                                alreadyExist.css('display', 'block');
-                                message.css('display', 'none');
-                                good.css('display', 'none');
-                                $scope.unique = false;
-                            }
-                        });
+                    //$http.get($rootScope.contextPath + $rootScope.restPath +
+                    //'/users/actions/is' + param + 'Unique', {params: value})
+                    //    .success(function (data) {
+                    //        if (data) {
+                    //            alreadyExist.css('display', 'none');
+                    //            message.css('display', 'none');
+                    //            good.css('display', 'block');
+                    //            $scope.unique = true;
+                    //        }
+                    //        else {
+                    //            alreadyExist.css('display', 'block');
+                    //            message.css('display', 'none');
+                    //            good.css('display', 'none');
+                    //            $scope.unique = false;
+                    //        }
+                    //    });
                 } else {
                     alreadyExist.css('display', 'none');
                     message.css('display', 'block');
@@ -110,13 +133,9 @@ app.lazy.controller('settingsCtrl', function ($scope, $http, $rootScope, $compil
 
         }
     }
+
     loadMenu();
 
     // SEMANTIC ANIMATION
     $('.info').popup();
-
-    // SEMANTIC ANIMATION
-    var saved = function () {
-        $('.save').removeClass('blue').addClass('green').html('<i class="checkmark icon"></i>Saved');
-    }
 });

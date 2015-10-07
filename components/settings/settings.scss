@@ -7,7 +7,12 @@
   float: right;
 }
 
+.background-container {
+  display: none;
+}
+
 .wrapper {
+  margin-top: 90px;
   .navigation {
     @include inline-left;
     margin-top: 50px;
@@ -22,6 +27,7 @@
     img {
       box-sizing: border-box;
       width: 220px;
+      height: 220px;
       padding: 5px;
     }
     .fluid.button {

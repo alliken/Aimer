@@ -1,11 +1,9 @@
 // NAVIGATION CONTROLLER
-app.controller('navCtrl', function ($scope, $http, $rootScope, $location, $state, userStorageService) {
+app.controller('navCtrl', function ($rootScope, $scope, $http, $location, $state, userStorageService) {
     $scope.user = $rootScope.currentUser;
     $scope.credentials = {};
     $scope.searchFriends = '';
     $scope.ishiddenDropDown = true;
-    userStorageService.contextPath();
-
 
     this.logout = function () {
         $http.post($rootScope.contextPath + $rootScope.restPath + '/logout', {}).success(function () {

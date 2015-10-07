@@ -34,11 +34,13 @@
 
     <div class="ui divider"></div>
 
+    <div class="drafts-button" ng-click="userCtrl.showDrafts()" ui-sref="drafts">Drafts</div>
+
     <div class="bookmarks">
 
         <div class="col">
             <span class="num">{{followingFollowers.aim}}</span> <br>
-            <span class="text">Aims</span>
+            <span class="text" ui-sref="user">Aims</span>
         </div>
 
         <div class="col">

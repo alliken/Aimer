@@ -1,12 +1,17 @@
 app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $http, $compile) {
-    var aimCtrl = this
-        , ang = angular.element
-        , masonryGrid = undefined;
+    var aimCtrl = this;
+    var ang = angular.element;
+    var masonryGrid = undefined;
+    aimCtrl.sessionId = null;
+    aimCtrl.saveToSession = undefined;
     aimCtrl.aim = {
         'pictures': []
     };
 
-    //Expand (show) aim add block
+    /**
+     * Expands aim add block with window scroll animation.
+     * Initializes TinyMCE plugin and sets time interval for drafts updating
+     */
     aimCtrl.expandAddAim = function () {
         $('html, body').animate({scrollTop: 300}, 150);
         $('.aim-add-button').hide();
@@ -169,17 +174,21 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
 
             }
         });
-        //$interval(function () {
-        //    $http.put($rootScope.contextPath + $rootScope.restPath + '/users/aims/actions/putToSession',
-        //        aimCtrl.collectAimData())
-        //        .success(function (response) {
-        //            console.log(response)
-        //        })
-        //}, 60000)
+        aimCtrl.saveToSession = $interval(function () {
+            var aim = aimCtrl.collectAimData(aimCtrl.sessionId);
+            console.log(aim);
+            $http.put($rootScope.contextPath + $rootScope.restPath + '/users/aims/actions/putToSession',
+                aim)
+                .success(function (data) {
+                    aimCtrl.sessionId = data.sessionObjectId;
+                })
+        }, 20000);
     };
 
     //Hide aim add block
     aimCtrl.hideAddAim = function () {
+        $interval.cancel(aimCtrl.saveToSession);
+        aimCtrl.sessionId = null;
         $('html, body').animate({scrollTop: 0}, 400);
         $('.aim-add-button').show();
         $('.aim-add-form-container').hide();
@@ -221,7 +230,7 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
 
     aimCtrl.deleteStep = function () {
         //if ($scope.steps.length > 1) {
-            $scope.steps.pop();
+        $scope.steps.pop();
         //}
     };
 
@@ -233,8 +242,8 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
         }
         $scope.steps[index].subStep.push({});
     };
-    aimCtrl.deleteSubStep = function (parentI, I) {
-        $scope.steps[parentI].subStep.splice(I, 1)
+    aimCtrl.deleteSubStep = function (parentIndex, index) {
+        $scope.steps[parentIndex].subStep.splice(index, 1)
     };
     aimCtrl.showDescription = function () {
         ang('.step-description').show();
@@ -393,12 +402,11 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
      * @function stepSet() - collect data from all AIM steps
      * @function subStepSet() - collect data from all steps substeps
      */
-    aimCtrl.collectAimData = function () {
-
-        var aimName = ang('.aim-name .name').html() || null,
-            aimDescription = tinyMCE.activeEditor.getContent() || null,
-            access = $('.ui.dropdown').dropdown('get text') || null,
-            aimAttached = [];
+    aimCtrl.collectAimData = function (session) {
+        var aimName = ang('.aim-name .name').html() || null;
+        var aimDescription = tinyMCE.activeEditor.getContent() || null;
+        var access = $('.ui.dropdown').dropdown('get text') || null;
+        var aimAttached = [];
 
         if (aimName === null) return;
 
@@ -459,7 +467,7 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
                 steps[i] = new Step(null,
                     name,
                     description, null, null,
-                    stepAttached, null, null,
+                    stepAttached, null,
                     subSteps);
             }
             return steps;
@@ -486,8 +494,8 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
                 }
 
                 subSteps[j] = new Step(null,
-                    ang(subStepSelector[i]).html(), null, null, null,
-                    subStepAttached, null, null, null);
+                    ang(subStepSelector[j]).html(), null, null, null,
+                    subStepAttached, null, null);
             }
             if (subSteps.length === 0) {
                 return null;
@@ -497,7 +505,7 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
         };
 
         return {
-            "sessionObjectId": null,
+            "sessionObjectId": session,
             "aim": new Aim(null,
                 aimName,
                 aimDescription, null, null,
@@ -505,16 +513,17 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
                 null,
                 stepSet())
         };
-
-        //return getAimData;
     };
 
     aimCtrl.saveAim = function () {
         var data = new FormData();
+        var aim = aimCtrl.collectAimData(null);
+        console.log($scope);
         for (var i = 0; i < aimCtrl.aim.pictures.length; i++) {
             data.append("photos", aimCtrl.aim.pictures[i]);
         }
-        data.append('aimSessionDto', JSON.stringify(aimCtrl.collectAimData()));
+
+        data.append('aimSessionDto', JSON.stringify(aimCtrl.collectAimData(sessionId)));
 
         $http({
             method: 'POST',
@@ -526,18 +535,19 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
             }
         })
             .success(function () {
+                sessionId = null;
                 aimCtrl.hideAddAim();
+                var loadAimsCtrl = $scope.$$nextSibling.loadAimsCtrl;
+                loadAimsCtrl.sortedAims.unshift(aim.aim);
+                for (i = 0; i < aimCtrl.aim.pictures.length; i++) {
+                    loadAimsCtrl.sortedAims[0].aimPictures = null;
+                }
             })
     };
 
-    //aimCtrl.saveAim = function () {
-    //    $http.post($rootScope.contextPath + $rootScope.restPath + '/users/aims?isDirty=true', aimCtrl.collectAimData())
-    //        .success(function () {
-    //            aimCtrl.hideAddAim();
-    //        });
-    //};
-
     (function semanticUI() {
+
+        // Public/private/friends dropdown
         ang('.ui.dropdown')
             .dropdown();
     })();

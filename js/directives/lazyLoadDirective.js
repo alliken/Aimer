@@ -3,13 +3,13 @@ app.directive('head', function ($rootScope, $compile, $http) {
     return {
         restrict: 'E',
         link: function (scope, element) {
-            $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState, fromParams) {
+            $rootScope.$on('$stateChangeSuccess', function (evt, toState, toParams, fromState) {
                 $rootScope.connectedCtrls = {};
                 $rootScope.connectedCss = {};
 
                 if (!fromState.name || (toState.data.css != fromState.data.css)) {
 
-                    angular.element('.hide-element').css('display', 'none');
+                    //angular.element('.hide-element').css('display', 'none');
                     angular.element('.lazyLoadedCss').html('');
 
                     if (toState.data.css && !$rootScope.connectedCss[toState.name]) {

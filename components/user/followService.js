@@ -1,7 +1,7 @@
 app.factory('followService', ['$rootScope', '$http', '$q', function ($rootScope, $http) {
 
     var checkIsFollowing = function (id) {
-        if (id && (id !=$rootScope.currentUser.userId)) {
+        if ($rootScope.currentUser && id && (id != $rootScope.currentUser.userId)) {
             $http.get($rootScope.contextPath + $rootScope.restPath + '/users/friends/' + id + '/actions/isSubscriber')
                 .success(function (response) {
                     $rootScope.anotherUser.isFollowing = response;

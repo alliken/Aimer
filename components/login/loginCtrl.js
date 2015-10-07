@@ -1,5 +1,5 @@
 // LOGIN CONTROLLER
-app.controller('loginCtrl', function ($scope, $http, $rootScope, $location, $state, $window, userStorageService) {
+app.controller('loginCtrl', function ($scope, $http, $rootScope, $location, $state, $window, userStorageService, Users) {
     $scope.user = $rootScope.currentUser;
     $scope.credentials = {};
 
@@ -9,7 +9,7 @@ app.controller('loginCtrl', function ($scope, $http, $rootScope, $location, $sta
             + btoa(credentials.username + ":" + credentials.password)
         } : {};
 
-        $http.get($rootScope.contextPath + $rootScope.restPath + '/users', {headers: headers}).success(function (data) {
+        Users.user(headers).signin({}, function (data) {
             if (data.email) {
                 userStorageService.setCurrentUser(data, true);
             }
@@ -17,7 +17,7 @@ app.controller('loginCtrl', function ($scope, $http, $rootScope, $location, $sta
                 $rootScope.authenticated = false;
             }
             callback && callback();
-        }).error(function () {
+        }, function () {
             $rootScope.authenticated = false;
             callback && callback();
         });
@@ -42,11 +42,7 @@ app.controller('loginCtrl', function ($scope, $http, $rootScope, $location, $sta
         users.email = $scope.user.email.toLowerCase();
         users.password = $scope.user.password;
 
-        return $http({
-            method: "POST",
-            url: $rootScope.contextPath + $rootScope.restPath + "/users",
-            data: users
-        }).success(function () {
+        Users.user().create({}, users, function (data) {
             var header = {
                 'username': users.email,
                 'password': users.password
@@ -55,14 +51,36 @@ app.controller('loginCtrl', function ($scope, $http, $rootScope, $location, $sta
                 if ($rootScope.authenticated) {
                     $state.go('personal');
                 }
-            });
+            })
+        }, function (data) {
+            if (data.data === 'Email must be unique') {
+                //TODO inform user about used email
+                alert('User with this email already exists!');
+            }
         });
+
+        //$http({
+        //    method: "POST",
+        //    url: $rootScope.contextPath + $rootScope.restPath + "/users",
+        //    data: users
+        //}).success(function (data) {
+        //    console.log(data);
+        //    var header = {
+        //        'username': users.email,
+        //        'password': users.password
+        //    };
+        //    authenticate(header, function () {
+        //        if ($rootScope.authenticated) {
+        //            $state.go('personal');
+        //        }
+        //    });
+        //});
     };
 
     $scope.signin = function (provider) {
-        (function(url, forceReload) {
+        (function (url, forceReload) {
             $scope = $scope || angular.element(document).scope();
-            if(forceReload || $scope.$$phase) {
+            if (forceReload || $scope.$$phase) {
                 $window.location = url;
             }
             else {

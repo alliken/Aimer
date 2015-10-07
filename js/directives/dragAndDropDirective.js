@@ -3,22 +3,41 @@ app.directive('imageDrop', function ($parse, $document) {
         restrict: "A",
         link: function (scope, element, attrs) {
             var onImageDrop = $parse(attrs.onImageDrop);
+            var level;
+
+            if (attrs.levelDrop) {
+                level = attrs.levelDrop;
+            } else {
+                level = 0;
+            }
 
             //When an item is dragged over the document
             var onDragOver = function (e) {
                 e.preventDefault();
-                element.addClass("drag-enter");
+                element.addClass("image-drag-enter");
             };
 
             //When the user leaves the window, cancels the drag or drops the item
             var onDragEnd = function (e) {
                 e.preventDefault();
-                element.removeClass("drag-enter");
+                element.removeClass("image-drag-enter");
             };
 
             //When a file is dropped
             var loadFile = function (file) {
-                scope.uploadedFile = file;
+                switch (level) {
+                    case '0':
+                        scope.uploadedFile = file;
+                        break;
+                    case '1':
+                        scope.$parent.uploadedFile = file;
+                        break;
+                    case '2':
+                        scope.$parent.$parent.uploadedFile = file;
+                        break;
+                }
+                //scope.$parent.uploadedFile = file;
+                //console.log(scope);
                 scope.$apply(onImageDrop(scope));
             };
 
@@ -28,7 +47,7 @@ app.directive('imageDrop', function ($parse, $document) {
             //Dragging ends on the overlay, which takes the whole window
             $document.bind("dragleave", onDragEnd);
             element.bind("drop", function (e) {
-                    angular.element('.drag-enter').removeClass('drag-enter');
+                    angular.element('.image-drag-enter').removeClass('image-drag-enter');
                     e.preventDefault();
                     loadFile(e.originalEvent.dataTransfer.files);
                 });

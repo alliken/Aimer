@@ -64,7 +64,6 @@
         </div>
         <div class="aim-add-form-container">
             <form class="ui form aim-add-form">
-
                 <section class="main-section aim-name">
                     <img class="pic" ng-src="{{user.smallPicture}}">
 
@@ -167,7 +166,7 @@
             </form>
         </div>
 
-        <!--SEARCH LIST WHEN USER ATTACHING-->
+        <!--SEARCH LIST USER ATTACHING-->
         <div class="search-list-attach">
             <div class="ui celled list">
                 <a class="item us" ng-repeat="user in friends"
@@ -187,7 +186,7 @@
     </div>
 
     <div class="aim-feed" ng-controller="loadAimsCtrl as loadAimsCtrl">
-        <div class="aim" ng-repeat="sortedAims in loadAimsCtrl.sortedAims">
+        <div class="aim" ng-repeat="sortedAims in loadAimsCtrl.sortedAims track by $index">
             <section class="head">
                 <div class="column-1">
                     <img class="head-image"
@@ -203,26 +202,91 @@
                             <span class="login">{{sortedAims.userLogin || anotherUser.login}}</span></a>
                     </div>
                     <div class="clear"></div>
-                    <div class="aim-name">{{sortedAims.title}}</div>
+                    <div class="aim-name"
+                         ng-model="sortedAims.title"
+                         content-editable="">{{sortedAims.title}}</div>
                     <div class="clear"></div>
                 </div>
                 <div class="column-3">
-                    <div class="aim-edit-button">
+                    <div class="aim-delete-button"
+                         ng-hide="sortedAims.isEditing"
+                         ng-click="loadAimsCtrl.deleteAim($index)">
+                        <i class="remove icon"></i>
+                    </div>
+                    <div class="aim-edit-button"
+                         ng-hide="sortedAims.isEditing"
+                         ng-click="loadAimsCtrl.editAim($index)">
                         <i class="write icon"></i>
                     </div>
+                    <div class="clear"></div>
                     <div class="aim-date">{{sortedAims.dateOfAdding}}</div>
                 </div>
                 <div class="clear"></div>
             </section>
             <section class="content">
                 <div class="description" ng-bind-html="sortedAims.description"></div>
-                <div class="aim-images" masonry-grid>
-                    <img class="image-container" ng-repeat="images in sortedAims.picturesPathList"
-                         ng-src="{{'/aimer' + images}}" style="float: left; width: 200px;">
+                <div class="steps" ng-hide="!sortedAims.stepsCount">
+                    <div class="step" ng-repeat="step in sortedAims.steps track by $index"
+                         ng-drop="true"
+                         ng-drop-success="loadAimsCtrl.onDropComplete($index, $data, $event, $parent.$index)">
+
+                        <div class="drag-container" ng-drag="true" ng-drag-data="{{$index}}">
+                            <div class="step-name inner"
+                                 ng-cancel-drag
+                                 ng-model="step.title"
+                                 content-editable=""></div>
+                            <ul class="substeps inner" ng-cancel-drag>
+                                <li ng-repeat="subStep in step.subSteps track by $index" ng-cancel-drag>
+                                    <div class="substep-name"
+                                         ng-cancel-drag
+                                         ng-model="subStep.title"
+                                         content-editable=""></div>
+                                    <div class="delete-substep"
+                                         ng-cancel-drag
+                                         ng-click="loadAimsCtrl.removeSubStep($parent.$parent.$index,
+                                         $parent.$index, $index)"
+                                         ng-show="sortedAims.isEditing">
+                                        <i class="remove icon"></i>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="drag-button" ng-show="sortedAims.isEditing"><i class="sidebar icon"></i></div>
+                            <div class="remove-icon"
+                                 ng-cancel-drag
+                                 ng-show="sortedAims.isEditing"
+                                 ng-click="loadAimsCtrl.removeStep($parent.$index, $index)">
+                                <i class="remove icon"></i>
+                            </div>
+                            <div class="add-substep"
+                                 ng-cancel-drag
+                                 ng-show="sortedAims.isEditing"
+                                 ng-click="loadAimsCtrl.addSubStep($parent.$index, $index)">
+                                <i class="list layout icon"></i>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <button class="ui grey basic button add-step"
+                        ng-click="loadAimsCtrl.addStep($index)"
+                        ng-show="sortedAims.isEditing">New Step</button>
+                <div class="clear"></div>
+                <div class="aim-images"
+                     ng-click="loadAimsCtrl.deleteImage($event, $index)"
+                     image-drop
+                     level-drop="1"
+                     on-image-drop="loadAimsCtrl.uploadEditableAimPictureDrag($index)">
+                    <div ng-repeat="image in sortedAims.aimPictures" image-grid="">
+                        <img class="image"
+                             ng-src="{{contextPath + image.picturePath}}">
+                    </div>
                 </div>
                 <div class="clear"></div>
             </section>
-            <section class="bottom-content">
+            <section class="bottom-content" ng-hide="loadAimsCtrl.editableAim">
+                <div class="load-steps"
+                     ng-hide="!sortedAims.stepsCount"
+                     ng-click="loadAimsCtrl.getSteps($index)">{{sortedAims.stepsCount}} Steps</div>
                 <div class="like"
                      ng-class="{'like': !sortedAims.isUserLiked, 'liked': sortedAims.isUserLiked}"
                      ng-click="loadAimsCtrl.likeAim($index)"><i class="heart icon"></i>{{sortedAims.likesCount}}</div>
@@ -234,12 +298,27 @@
 
                 <div class="clear"></div>
             </section>
+
+            <div class="ui teal basic button" ng-show="sortedAims.isEditing"
+                    style="float: right;"
+                    ng-click="loadAimsCtrl.updateAim($index)">Save</div>
+            <div class="ui orange basic button"
+                 ng-show="sortedAims.isEditing"
+                 style="float: right;"
+                 ng-click="loadAimsCtrl.cancelAimEdit($index)">Cancel</div>
+            <div class="ui teal basic button add-picture"
+                 ng-click="loadAimsCtrl.uploadEditableAimPicture(undefined, $index)"
+                 ng-show="sortedAims.isEditing"
+                 style="float: right;">
+                <i class="photo icon"></i>
+                Add picture
+                <input class="aim-picture{{$index}} hidden" type="file" multiple>
+            </div>
+            <div class="clear"></div>
         </div>
         <div infinite-scroll="loadAimsCtrl.getAims()"
              infinite-scroll-disabled='loadAimsCtrl.busyDataLoading'></div>
         <div class="no-more-aims" ng-show="loadAimsCtrl.noMoreAims">Nunc ac sapien a dolor cursus convallis</div>
         <div class="ui active inline loader aims-load-animation" ng-show="loadAimsCtrl.loading"></div>
     </div>
-
-
 </div>

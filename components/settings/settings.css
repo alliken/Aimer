@@ -1,72 +1,76 @@
-.wrapper .navigation {
-  display: inline-block;
-  float: left;
-  margin-top: 50px;
-  max-width: 23%;
-  min-width: 165px;
-  background-color: white;
-  border: 1px solid #bababa;
-  -webkit-box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.3);
-  position: relative; }
-  .wrapper .navigation img {
-    box-sizing: border-box;
-    width: 220px;
-    padding: 5px; }
-  .wrapper .navigation .fluid.button {
-    z-index: 96;
-    background-color: rgba(0, 0, 0, 0.4);
-    border: none;
-    border-radius: 0;
-    position: absolute;
-    top: 175px;
-    left: 5px;
-    width: 210px;
-    height: 40px;
-    line-height: 15px;
-    color: #d7d7d7;
-    transition: all 300ms; }
-  .wrapper .navigation .fluid.button:hover {
-    background-color: rgba(0, 0, 0, 0.7); }
-  .wrapper .navigation .vertical.menu {
-    border-radius: 0;
-    border: none; }
-  .wrapper .navigation .vertical.menu .item {
-    border-left: none;
-    border-right: none; }
-.wrapper .main {
-  display: inline-block;
-  float: left;
-  width: 74%;
-  background-color: white;
-  height: 550px;
-  display: block;
-  border: 1px solid #ccc;
-  margin-top: -5px;
-  margin-left: 3%;
-  box-sizing: border-box;
-  padding: 30px; }
-  .wrapper .main .std-label {
-    float: left; }
-  .wrapper .main .not-unique-login-message, .wrapper .main .not-unique-email-message,
-  .wrapper .main .not-unique-login-good, .wrapper .main .not-unique-email-good,
-  .wrapper .main .not-unique-login, .wrapper .main .not-unique-email,
-  .wrapper .main .login-bad, .wrapper .main .email-bad {
-    float: right;
-    font-size: 0.8em;
-    color: #949494; }
-  .wrapper .main .not-unique-login, .wrapper .main .not-unique-email {
-    display: none;
-    color: #ff4b3f; }
-  .wrapper .main .not-unique-login-good, .wrapper .main .not-unique-email-good {
-    color: #008800;
-    display: none; }
-  .wrapper .main .good {
-    color: #008800;
-    float: right;
-    font-size: 0.8em; }
-  .wrapper .main .login-bad, .wrapper .main .email-bad {
-    color: #ff4b3f; }
+.background-container {
+  display: none; }
 
-/*# sourceMappingURL=settings.css.map */
+.wrapper {
+  margin-top: 90px; }
+  .wrapper .navigation {
+    display: inline-block;
+    float: left;
+    margin-top: 50px;
+    max-width: 23%;
+    min-width: 165px;
+    background-color: white;
+    border: 1px solid #bababa;
+    -webkit-box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.3);
+    position: relative; }
+    .wrapper .navigation img {
+      box-sizing: border-box;
+      width: 220px;
+      height: 220px;
+      padding: 5px; }
+    .wrapper .navigation .fluid.button {
+      z-index: 96;
+      background-color: rgba(0, 0, 0, 0.4);
+      border: none;
+      border-radius: 0;
+      position: absolute;
+      top: 175px;
+      left: 5px;
+      width: 210px;
+      height: 40px;
+      line-height: 15px;
+      color: #d7d7d7;
+      transition: all 300ms; }
+    .wrapper .navigation .fluid.button:hover {
+      background-color: rgba(0, 0, 0, 0.7); }
+    .wrapper .navigation .vertical.menu {
+      border-radius: 0;
+      border: none; }
+    .wrapper .navigation .vertical.menu .item {
+      border-left: none;
+      border-right: none; }
+  .wrapper .main {
+    display: inline-block;
+    float: left;
+    width: 74%;
+    background-color: white;
+    height: 550px;
+    display: block;
+    border: 1px solid #ccc;
+    margin-top: -5px;
+    margin-left: 3%;
+    box-sizing: border-box;
+    padding: 30px; }
+    .wrapper .main .std-label {
+      float: left; }
+    .wrapper .main .not-unique-login-message, .wrapper .main .not-unique-email-message,
+    .wrapper .main .not-unique-login-good, .wrapper .main .not-unique-email-good,
+    .wrapper .main .not-unique-login, .wrapper .main .not-unique-email,
+    .wrapper .main .login-bad, .wrapper .main .email-bad {
+      float: right;
+      font-size: 0.8em;
+      color: #949494; }
+    .wrapper .main .not-unique-login, .wrapper .main .not-unique-email {
+      display: none;
+      color: #ff4b3f; }
+    .wrapper .main .not-unique-login-good, .wrapper .main .not-unique-email-good {
+      color: #008800;
+      display: none; }
+    .wrapper .main .good {
+      color: #008800;
+      float: right;
+      font-size: 0.8em; }
+    .wrapper .main .login-bad, .wrapper .main .email-bad {
+      color: #ff4b3f; }

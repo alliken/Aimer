@@ -1,6 +1,5 @@
 // USER INTERFACE CONTROLLER
-app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $stateParams, followService,
-                                     userStorageService, $location) {
+app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $stateParams, followService, Users) {
     var userCtrl = this;
     var ang = angular.element;
     $scope.user = $rootScope.currentUser;
@@ -37,7 +36,6 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
                     });
 
                 });
-
         }
     })();
 
@@ -65,34 +63,16 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
      */
     (function getFollowingFollowers() {
         var id = $rootScope.anotherUser.userId || $rootScope.currentUser.userId;
-        $http.get($rootScope.contextPath + $rootScope.restPath + '/users/' + id + '/actions/getAimAndFollowersCount')
-            .success(function (data) {
-                $scope.followingFollowers = {
-                    following: data.following,
-                    followers: data.followers,
-                    aim: data.aim
-                };
-            });
+        Users.getFollowingFollowers(id).$promise.then(function (data) {
+            $scope.followingFollowers = {
+                following: data.followingCount,
+                followers: data.followersCount,
+                aim: data.aimCount
+            }
+        }, function () {
+            console.log('User doesn\'t exist');
+        })
     })();
-
-    //CHECK IF USER IS CURRENT. IF NOT - LOAD ANOTHER USER DATA
-    //(function checkIfUserCurrent() {
-    //    if ($stateParams && ($rootScope.currentUser == undefined || $stateParams.user != $rootScope.currentUser.login)) {
-    //        userStorageService.getAnotherUser($stateParams.user)
-    //            .then(function () {
-    //                getFollowingFollowers($rootScope.anotherUser.userId);
-    //                if ($rootScope.authenticated) {
-    //                    followService.checkIsFollowing($rootScope.anotherUser.userId);
-    //                }
-    //                showSignUpMessage();
-    //            }, function () {
-    //                $location.path('404');
-    //            })
-    //    } else {
-    //        getFollowingFollowers($rootScope.currentUser.userId);
-    //        $rootScope.anotherUser = false;
-    //    }
-    //})();
 
     function showSignUpMessage() {
         if (!$rootScope.authenticated && ($stateParams.user != 404)) {
@@ -533,4 +513,5 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
     $scope.hideBlock = function (selector) {
         ang(selector).hide();
     };
+
 });

@@ -99,8 +99,7 @@ body {
       top: 10px;
       right: 10px;
       cursor: pointer;
-      padding: 4px;
-      padding-left: 6px;
+      padding: 4px 4px 4px 6px;
       color: white; }
 
 .wrapper {
@@ -163,6 +162,15 @@ body {
         font-size: 1.2em;
         font-weight: bold;
         padding-top: 10px; }
+      .wrapper .navigation .scrolling-container .drafts-button {
+        padding: 0;
+        margin-bottom: 5px;
+        font-size: 1.3em;
+        color: #3a3a3a;
+        text-align: center;
+        cursor: pointer; }
+      .wrapper .navigation .scrolling-container .drafts-button:hover {
+        background-color: #ebebeb; }
       .wrapper .navigation .scrolling-container .bookmarks {
         display: block;
         width: 220px;
@@ -425,7 +433,7 @@ body {
             position: absolute;
             top: 3px;
             right: 3px;
-            line-height: 0px !important;
+            line-height: 0 !important;
             padding-bottom: 3px;
             height: 16px;
             cursor: pointer;
@@ -464,27 +472,96 @@ body {
         .main .aim-feed .aim .head .user-name .first-last-name {
           font-size: 1em; }
       .main .aim-feed .aim .head .aim-name {
-        padding: 12px 0 0 0;
-        font-size: 1.1em; }
-      .main .aim-feed .aim .head .aim-edit-button {
+        margin-top: 12px;
+        font-size: 1.2em; }
+      .main .aim-feed .aim .head .aim-edit-button, .main .aim-feed .aim .head .aim-delete-button {
         color: #bcbcbc;
-        cursor: pointer; }
+        cursor: pointer;
+        float: right; }
+      .main .aim-feed .aim .head .aim-edit-button:hover, .main .aim-feed .aim .head .aim-delete-button:hover {
+        color: #d5d5d5; }
       .main .aim-feed .aim .head .aim-date {
         color: #7a7a7a;
         margin-top: 16px; }
     .main .aim-feed .aim .content {
       padding: 10px 10px 10px 10px; }
+      .main .aim-feed .aim .content .description {
+        padding: 10px; }
+      .main .aim-feed .aim .content .aim-images {
+        margin-top: 10px;
+        height: 350px;
+        background-color: #f5f5f5;
+        border: 1px solid #e9e9e9;
+        position: relative;
+        display: none; }
+        .main .aim-feed .aim .content .aim-images .image {
+          display: none; }
+      .main .aim-feed .aim .content .step .drag-container {
+        position: relative; }
+        .main .aim-feed .aim .content .step .drag-container .step-name {
+          font-size: 1.3em;
+          color: #333333;
+          min-height: 23px;
+          max-width: 564px; }
+        .main .aim-feed .aim .content .step .drag-container .drag-button {
+          position: absolute;
+          right: 3px;
+          top: 3px;
+          cursor: pointer;
+          color: #dfdfdf; }
+        .main .aim-feed .aim .content .step .drag-container .drag-button:hover {
+          color: #d5d5d5; }
+        .main .aim-feed .aim .content .step .drag-container .remove-icon {
+          position: absolute;
+          right: 19px;
+          top: 2px;
+          cursor: pointer;
+          color: #dfdfdf; }
+        .main .aim-feed .aim .content .step .drag-container .remove-icon:hover {
+          color: #d5d5d5; }
+        .main .aim-feed .aim .content .step .drag-container .add-substep {
+          position: absolute;
+          right: 35px;
+          top: 3px;
+          cursor: pointer;
+          color: #dfdfdf; }
+        .main .aim-feed .aim .content .step .drag-container .add-substep:hover {
+          color: #d5d5d5; }
+        .main .aim-feed .aim .content .step .drag-container .substeps {
+          list-style-type: none;
+          padding-left: 20px; }
+          .main .aim-feed .aim .content .step .drag-container .substeps li {
+            position: relative; }
+            .main .aim-feed .aim .content .step .drag-container .substeps li .delete-substep {
+              display: none;
+              position: absolute;
+              top: 0px;
+              right: 2px;
+              cursor: pointer;
+              color: #dfdfdf; }
+            .main .aim-feed .aim .content .step .drag-container .substeps li .delete-substep:hover {
+              color: #d5d5d5; }
+            .main .aim-feed .aim .content .step .drag-container .substeps li .substep-name {
+              display: block;
+              width: 573px; }
+          .main .aim-feed .aim .content .step .drag-container .substeps li:hover .delete-substep {
+            display: block; }
+      .main .aim-feed .aim .content .add-step {
+        float: right; }
     .main .aim-feed .aim .bottom-content {
       padding-bottom: 10px;
       padding-right: 10px; }
-      .main .aim-feed .aim .bottom-content .comments, .main .aim-feed .aim .bottom-content .repost, .main .aim-feed .aim .bottom-content .like {
+      .main .aim-feed .aim .bottom-content .comments, .main .aim-feed .aim .bottom-content .repost, .main .aim-feed .aim .bottom-content .like, .main .aim-feed .aim .bottom-content .load-steps {
         display: inline-block;
         float: right;
         color: #cccccc;
         cursor: pointer;
         margin-right: 5px; }
-        .main .aim-feed .aim .bottom-content .comments i:hover, .main .aim-feed .aim .bottom-content .repost i:hover, .main .aim-feed .aim .bottom-content .like i:hover {
+        .main .aim-feed .aim .bottom-content .comments i:hover, .main .aim-feed .aim .bottom-content .repost i:hover, .main .aim-feed .aim .bottom-content .like i:hover, .main .aim-feed .aim .bottom-content .load-steps i:hover {
           color: #5e5e5e; }
+      .main .aim-feed .aim .bottom-content .load-steps {
+        float: left;
+        margin: 0 0 0 10px; }
       .main .aim-feed .aim .bottom-content .liked, .main .aim-feed .aim .bottom-content .reposted {
         cursor: pointer;
         display: inline-block;
@@ -506,12 +583,35 @@ body {
 .active-font-btn {
   background-color: #a4a4a4 !important; }
 
-.drag-enter {
+.image-drag-enter {
   display: block;
   border: 2px dashed black;
   opacity: 0.3;
   color: white;
   background: none; }
+
+.drag-enter {
+  background-color: #e7ffec; }
+
+.editable-substep {
+  border: none;
+  text-align: left;
+  border-radius: 2px;
+  outline: none;
+  margin-top: 5px; }
+
+.editable-substep:hover {
+  background-color: #fafafa; }
+
+.editable {
+  border: none;
+  text-align: left;
+  border-radius: 2px;
+  outline: none;
+  margin-top: 5px; }
+
+.editable:hover {
+  background-color: #f4f4f4; }
 
 .search-list-attach {
   background-color: white;

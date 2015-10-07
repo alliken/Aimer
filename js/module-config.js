@@ -1,4 +1,4 @@
-var app = angular.module('aimer', ['ui.router', 'infinite-scroll']);//, 'uiRouterStyles']);
+var app = angular.module('aimer', ['ui.router', 'infinite-scroll', 'ngResource', 'ngDraggable']);
 
 //TODO comment
 app.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $controllerProvider) {
@@ -110,12 +110,22 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locatio
                 isPublic: true
             }
         })
+        .state('drafts', {
+            url: '/drafts',
+            templateUrl: 'components/drafts/drafts.html',
+            //controller: 'draftsCtrl',
+            data: {
+                showIfAuth: true,
+                isPublic: false
+            }
+
+        })
         .state('user', {
             url: '/:user', //TODO change to userLogin
             templateUrl: 'components/user/user.html',
             controller: 'userCtrl as userCtrl',
             data: {
-                css: 'components/user/user.css',
+                //css: 'components/user/user.css',
                 showIfAuth: true,
                 isPublic: true
             }
