@@ -484,7 +484,7 @@ body {
         color: #7a7a7a;
         margin-top: 16px; }
     .main .aim-feed .aim .content {
-      padding: 10px 10px 10px 10px; }
+      padding: 10px; }
       .main .aim-feed .aim .content .description {
         padding: 10px; }
       .main .aim-feed .aim .content .aim-images {
@@ -551,13 +551,13 @@ body {
     .main .aim-feed .aim .bottom-content {
       padding-bottom: 10px;
       padding-right: 10px; }
-      .main .aim-feed .aim .bottom-content .comments, .main .aim-feed .aim .bottom-content .repost, .main .aim-feed .aim .bottom-content .like, .main .aim-feed .aim .bottom-content .load-steps {
+      .main .aim-feed .aim .bottom-content .show-comments, .main .aim-feed .aim .bottom-content .repost, .main .aim-feed .aim .bottom-content .like, .main .aim-feed .aim .bottom-content .load-steps {
         display: inline-block;
         float: right;
         color: #cccccc;
         cursor: pointer;
         margin-right: 5px; }
-        .main .aim-feed .aim .bottom-content .comments i:hover, .main .aim-feed .aim .bottom-content .repost i:hover, .main .aim-feed .aim .bottom-content .like i:hover, .main .aim-feed .aim .bottom-content .load-steps i:hover {
+        .main .aim-feed .aim .bottom-content .show-comments i:hover, .main .aim-feed .aim .bottom-content .repost i:hover, .main .aim-feed .aim .bottom-content .like i:hover, .main .aim-feed .aim .bottom-content .load-steps i:hover {
           color: #5e5e5e; }
       .main .aim-feed .aim .bottom-content .load-steps {
         float: left;
@@ -568,6 +568,118 @@ body {
         float: right;
         color: #157564 !important;
         margin-right: 5px; }
+    .main .aim-feed .aim .comments {
+      box-sizing: border-box;
+      padding: 0 10px 10px 10px;
+      width: 100%;
+      background-color: #E6F1F3;
+      /* Comments list scrollbar style*/
+      /* Track */
+      /* Handle */ }
+      .main .aim-feed .aim .comments .comments-list {
+        max-height: 400px;
+        padding: 10px;
+        overflow-y: auto; }
+        .main .aim-feed .aim .comments .comments-list .comment {
+          position: relative;
+          margin-top: 3px; }
+          .main .aim-feed .aim .comments .comments-list .comment .column-1, .main .aim-feed .aim .comments .comments-list .comment .column-2 {
+            display: inline-block;
+            float: left;
+            box-sizing: border-box; }
+          .main .aim-feed .aim .comments .comments-list .comment .column-1 {
+            width: 45px; }
+          .main .aim-feed .aim .comments .comments-list .comment .column-2 {
+            width: 520px;
+            padding: 0 5px 0 5px; }
+          .main .aim-feed .aim .comments .comments-list .comment img {
+            width: 45px; }
+          .main .aim-feed .aim .comments .comments-list .comment .name {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #293334; }
+          .main .aim-feed .aim .comments .comments-list .comment .date {
+            font-size: 0.9em;
+            color: #b3b3b3; }
+          .main .aim-feed .aim .comments .comments-list .comment .content {
+            padding: 0;
+            display: block;
+            margin-top: 7px;
+            font-size: 1.1em; }
+          .main .aim-feed .aim .comments .comments-list .comment .comment-bottom-buttons {
+            height: 15px; }
+          .main .aim-feed .aim .comments .comments-list .comment .edit-comment, .main .aim-feed .aim .comments .comments-list .comment .remove-comment {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            color: #c8c8c8;
+            -webkit-transition: all .3s ease;
+            -moz-transition: all .3s ease;
+            -ms-transition: all .3s ease;
+            -o-transition: all .3s ease;
+            transition: all .3s ease; }
+          .main .aim-feed .aim .comments .comments-list .comment .remove-comment {
+            top: 1px;
+            right: 1px; }
+          .main .aim-feed .aim .comments .comments-list .comment .edit-comment {
+            top: 1px;
+            right: 16px; }
+          .main .aim-feed .aim .comments .comments-list .comment .edit-comment:hover, .main .aim-feed .aim .comments .comments-list .comment .remove-comment:hover {
+            color: #9d9d9d; }
+          .main .aim-feed .aim .comments .comments-list .comment .reply, .main .aim-feed .aim .comments .comments-list .comment .like {
+            overflow: hidden;
+            float: right;
+            cursor: pointer;
+            margin-right: 5px;
+            color: #c8c8c8;
+            opacity: 0;
+            -webkit-transition: all .3s ease;
+            -moz-transition: all .3s ease;
+            -ms-transition: all .3s ease;
+            -o-transition: all .3s ease;
+            transition: all .3s ease; }
+          .main .aim-feed .aim .comments .comments-list .comment .liked {
+            opacity: 1;
+            cursor: pointer;
+            display: inline-block;
+            float: right;
+            color: #157564 !important;
+            margin-right: 5px; }
+          .main .aim-feed .aim .comments .comments-list .comment .reply:hover, .main .aim-feed .aim .comments .comments-list .comment .like:hover {
+            color: #9d9d9d; }
+          .main .aim-feed .aim .comments .comments-list .comment .button {
+            float: right;
+            border-radius: 0;
+            margin-top: 5px; }
+        .main .aim-feed .aim .comments .comments-list .comment:hover .edit-comment, .main .aim-feed .aim .comments .comments-list .comment:hover .remove-comment,
+        .main .aim-feed .aim .comments .comments-list .comment:hover .reply, .main .aim-feed .aim .comments .comments-list .comment:hover .like {
+          opacity: 1; }
+      .main .aim-feed .aim .comments .comments-list::-webkit-scrollbar {
+        width: 8px; }
+      .main .aim-feed .aim .comments .comments-list::-webkit-scrollbar-track {
+        -webkit-box-shadow: none;
+        -webkit-border-radius: 0;
+        border-radius: 0; }
+      .main .aim-feed .aim .comments .comments-list::-webkit-scrollbar-thumb {
+        -webkit-border-radius: 0;
+        border-radius: 0;
+        background: #C1D2DC;
+        -webkit-box-shadow: none; }
+      .main .aim-feed .aim .comments .comments-list::-webkit-scrollbar-thumb:window-inactive {
+        background: #C1D2DC; }
+      .main .aim-feed .aim .comments .add-comment {
+        padding: 10px; }
+        .main .aim-feed .aim .comments .add-comment .comment-area {
+          border: 1px solid #d3dddf;
+          background-color: white;
+          width: 100%;
+          font-size: 1em;
+          padding: 3px;
+          outline: none; }
+        .main .aim-feed .aim .comments .add-comment .button {
+          float: right;
+          margin-top: 5px;
+          border-radius: 0; }
   .main .aim-feed .no-more-aims {
     display: block;
     width: 100%;
@@ -579,6 +691,37 @@ body {
     margin: 50px 300px;
     display: block;
     width: 40px; }
+
+.error-message-block {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background: transparent;
+  display: none; }
+  .error-message-block .error-message {
+    width: 20%;
+    height: 25%;
+    display: block;
+    margin: 200px auto;
+    background-color: white;
+    border-radius: 1px;
+    -webkit-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.9);
+    -moz-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.9);
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.9);
+    position: relative;
+    padding: 5px; }
+    .error-message-block .error-message .remove {
+      position: absolute !important;
+      right: 3px !important;
+      top: 5px !important;
+      cursor: pointer; }
+    .error-message-block .error-message .text {
+      display: block;
+      margin-top: 10%;
+      width: 100%; }
 
 .active-font-btn {
   background-color: #a4a4a4 !important; }
@@ -612,6 +755,12 @@ body {
 
 .editable:hover {
   background-color: #f4f4f4; }
+
+.editable-comment {
+  text-align: left;
+  outline: none;
+  border: 1px solid #d3dddf;
+  background-color: white; }
 
 .search-list-attach {
   background-color: white;

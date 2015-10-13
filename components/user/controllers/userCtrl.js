@@ -44,10 +44,8 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
      */
     (function loadBackground() {
         var container = $('.background-container');
-
         container.text('');
         container.removeClass('loaded');
-
         if (!container.hasClass('loaded')) {
             $http.get($rootScope.contextPath + '/components/user/background.html')
                 .success(function (data) {
@@ -337,10 +335,10 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
                 }
             })
                 .success(function (data) {
-                    $rootScope.currentUser.largePicture = $rootScope.contextPath + (data.largePicture ?
+                    $rootScope.anotherUser.largePicture = $rootScope.contextPath + (data.largePicture ?
                         (data.largePicture + (data.largePicture.indexOf("?") > 0 ? "&" : "?") +
                         new Date().getTime()) : (''));
-                    $rootScope.currentUser.smallPicture = $rootScope.contextPath + (data.smallPicture ?
+                    $rootScope.anotherUser.smallPicture = $rootScope.contextPath + (data.smallPicture ?
                         (data.smallPicture + (data.smallPicture.indexOf("?") > 0 ? "&" : "?") +
                         new Date().getTime()) : (''));
                     //$('.save-photo').removeClass('blue').addClass('green').html('<i class="checkmark icon"></i>Saved');
@@ -434,8 +432,9 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
     userCtrl.sendBackground = function () {
         var formData = new FormData(),
             input = document.getElementById('image-background');
+        var pic = input.files[0] || $scope.uploadedFile;
 
-        formData.append('photo', input.files[0] || $scope.uploadedFile);
+        formData.append('photo', pic);
         $scope.pointsToCrop = JSON.stringify($scope.pointsToCrop);
         formData.append('params', $scope.pointsToCrop);
         $http({
@@ -448,8 +447,8 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
             }
         })
             .success(function (data) {
-                $rootScope.currentUser.backgroundPicturePath = $rootScope.contextPath + data.backgroundPicturePath + '?' +
-                new Date().getTime();
+                $rootScope.anotherUser.backgroundPicturePath = $rootScope.contextPath + $rootScope.restPath +
+                data.backgroundPicturePath + '?' + new Date().getTime();
                 closeModalBox();
                 $scope.pointsToCrop = undefined;
                 input.value = "";

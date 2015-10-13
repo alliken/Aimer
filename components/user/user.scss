@@ -583,7 +583,7 @@ body {
     }
   }
 
-  // LOADING AIMS
+  // AIM FEED
   .aim-feed {
     .aim {
       margin-top: 16px;
@@ -640,7 +640,7 @@ body {
       }
 
       .content {
-        padding: 10px 10px 10px 10px;
+        padding: 10px;
 
         .description {
           padding: 10px;
@@ -734,7 +734,7 @@ body {
       .bottom-content {
         padding-bottom: 10px;
         padding-right: 10px;
-        .comments, .repost, .like, .load-steps {
+        .show-comments, .repost, .like, .load-steps {
           @include inline-right;
           color: #cccccc;
           cursor: pointer;
@@ -756,6 +756,155 @@ body {
           margin-right: 5px;
         }
       }
+
+      .comments {
+        box-sizing: border-box;
+        padding: 0 10px 10px 10px;
+        width: 100%;
+        background-color: #E6F1F3;
+
+        .comments-list {
+          max-height: 400px;
+          padding: 10px;
+          overflow-y: auto;
+
+          .comment {
+            position: relative;
+            margin-top: 3px;
+
+            .column-1, .column-2 {
+              @include inline-left();
+              box-sizing: border-box;
+            }
+            .column-1 {
+              width: 45px;
+            }
+            .column-2 {
+              width: 520px;
+              padding: 0 5px 0 5px;
+            }
+            img {
+              width: 45px;
+            }
+            .name {
+              font-weight: bold;
+              font-size: 1.2em;
+              color: #293334;
+            }
+            .date {
+              font-size: 0.9em;
+              color: #b3b3b3;
+            }
+            .content {
+              padding: 0;
+              display: block;
+              margin-top: 7px;
+              font-size: 1.1em;
+            }
+            .comment-bottom-buttons {
+              height: 15px;
+            }
+            .edit-comment, .remove-comment {
+              position: absolute;
+              opacity: 0;
+              cursor: pointer;
+              color: #c8c8c8;
+              -webkit-transition: all .3s ease;
+              -moz-transition: all .3s ease;
+              -ms-transition: all .3s ease;
+              -o-transition: all .3s ease;
+              transition: all .3s ease;
+            }
+            .remove-comment {
+              top: 1px;
+              right: 1px;
+            }
+            .edit-comment {
+              top: 1px;
+              right: 16px;
+            }
+            .edit-comment:hover, .remove-comment:hover {
+              color: #9d9d9d;
+            }
+            .reply, .like {
+              overflow: hidden;
+              float: right;
+              cursor: pointer;
+              margin-right: 5px;
+              color: #c8c8c8;
+              opacity: 0;
+              -webkit-transition: all .3s ease;
+              -moz-transition: all .3s ease;
+              -ms-transition: all .3s ease;
+              -o-transition: all .3s ease;
+              transition: all .3s ease;
+            }
+            .liked {
+              opacity: 1;
+              cursor: pointer;
+              @include inline-right;
+              color: #157564 !important;
+              margin-right: 5px;
+            }
+            .reply:hover, .like:hover {
+              color: #9d9d9d;
+            }
+            .button {
+              float: right;
+              border-radius: 0;
+              margin-top: 5px;
+            }
+          }
+
+          .comment:hover .edit-comment, .comment:hover .remove-comment,
+          .comment:hover .reply, .comment:hover .like {
+            opacity: 1;
+          }
+        }
+
+        /* Comments list scrollbar style*/
+        .comments-list::-webkit-scrollbar {
+          width: 8px;
+
+        }
+
+        /* Track */
+        .comments-list::-webkit-scrollbar-track {
+          -webkit-box-shadow: none;
+          -webkit-border-radius: 0;
+          border-radius: 0
+        }
+
+        /* Handle */
+        .comments-list::-webkit-scrollbar-thumb {
+          -webkit-border-radius: 0;
+          border-radius: 0;
+          background: #C1D2DC;
+          -webkit-box-shadow: none;
+        }
+        .comments-list::-webkit-scrollbar-thumb:window-inactive {
+          background: #C1D2DC;
+        }
+
+        .add-comment {
+          padding: 10px;
+
+          .comment-area {
+            border: 1px solid #d3dddf;
+            background-color: white;
+            width: 100%;
+            font-size: 1em;
+            padding: 3px;
+            outline: none;
+          }
+
+          .button {
+            float: right;
+            margin-top: 5px;
+            border-radius: 0;
+          }
+        }
+      }
     }
 
     .no-more-aims {
@@ -773,8 +922,46 @@ body {
       width: 40px;
 
     }
-  }
+  } //...END OF AIM FEED
+}
 
+// ERROR MESSAGE
+.error-message-block {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0);
+  display: none;
+
+  .error-message {
+    width: 20%;
+    height: 25%;
+    display: block;
+    margin: 200px auto;
+    background-color: white;
+    border-radius: 1px;
+    -webkit-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.9);
+    -moz-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.9);
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.9);
+    position: relative;
+    padding: 5px;
+
+    .remove {
+      position: absolute !important;
+      right: 3px !important;
+      top: 5px !important;
+      cursor: pointer;
+    }
+
+    .text {
+      display: block;
+      margin-top: 10%;
+      width: 100%;
+    }
+  }
 }
 
 // ACTIVE AND OTH STYLES
@@ -816,6 +1003,13 @@ body {
 
 .editable:hover {
   background-color: #f4f4f4;
+}
+
+.editable-comment {
+  text-align: left;
+  outline: none;
+  border: 1px solid #d3dddf;
+  background-color: white;
 }
 
 // Search block styles

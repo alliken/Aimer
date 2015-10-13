@@ -1,5 +1,5 @@
 // NAVIGATION CONTROLLER
-app.controller('navCtrl', function ($rootScope, $scope, $http, $location, $state, userStorageService) {
+app.controller('navCtrl', function ($rootScope, $scope, $http, $location, $state) {
     $scope.user = $rootScope.currentUser;
     $scope.credentials = {};
     $scope.searchFriends = '';
@@ -44,4 +44,8 @@ app.controller('navCtrl', function ($rootScope, $scope, $http, $location, $state
             $('.search-list').hide();
         }, 200);
     });
+
+    this.closeErrorMessage = function (e) {
+        angular.element(e.target).parent().parent().css({display: 'none'});
+    }
 });

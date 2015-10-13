@@ -168,3 +168,9 @@ header {
   display: block;
   height: auto;
   margin: 60px auto 0; }
+
+[placeholder-text]:not(:focus):empty:before {
+  content: attr(placeholder-text);
+  float: left;
+  margin-left: 2px;
+  color: #c8c8c8; }

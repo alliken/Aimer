@@ -5,8 +5,21 @@ app.factory('Aims', ['$resource', '$rootScope', function ($resource, $rootScope)
     var getById = $resource($rootScope.contextPath + $rootScope.restPath + '/users/aims/:aimId', {}, {
         'get': {isArray: false}
     });
-    var del = $resource($rootScope.contextPath + $rootScope.restPath + '/users/aims/{id}?action=DELETE', {}, {
-        'put': {method: 'PUT'}
+    var del = $resource($rootScope.contextPath + $rootScope.restPath + '/users/aims/:id', {}, {
+        'delete': {
+            method: 'PUT',
+            params: {
+                id: '@id',
+                action: 'DELETE'
+            }
+        },
+        'complete': {
+            method: 'PUT',
+            params: {
+                id: '@id',
+                action: 'COMPLETE'
+            }
+        }
     });
 
     return {
@@ -17,7 +30,10 @@ app.factory('Aims', ['$resource', '$rootScope', function ($resource, $rootScope)
             return getById.get({aimId: id})
         },
         deleteAim: function (id) {
-            return del.put({id: id})
+            return del.delete({id: id});
+        },
+        completeAim: function (id) {
+            return del.complete({id: id})
         }
     }
 }]);

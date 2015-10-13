@@ -186,7 +186,7 @@
     </div>
 
     <div class="aim-feed" ng-controller="loadAimsCtrl as loadAimsCtrl">
-        <div class="aim" ng-repeat="sortedAims in loadAimsCtrl.sortedAims track by $index">
+        <div class="aim" ng-repeat="sortedAims in loadAimsCtrl.sortedAims">
             <section class="head">
                 <div class="column-1">
                     <img class="head-image"
@@ -234,13 +234,15 @@
                             <div class="step-name inner"
                                  ng-cancel-drag
                                  ng-model="step.title"
-                                 content-editable=""></div>
+                                 content-editable=""
+                                 placeholder-text="Step title"></div>
                             <ul class="substeps inner" ng-cancel-drag>
                                 <li ng-repeat="subStep in step.subSteps track by $index" ng-cancel-drag>
                                     <div class="substep-name"
                                          ng-cancel-drag
                                          ng-model="subStep.title"
-                                         content-editable=""></div>
+                                         content-editable=""
+                                         placeholder-text="Substep title"></div>
                                     <div class="delete-substep"
                                          ng-cancel-drag
                                          ng-click="loadAimsCtrl.removeSubStep($parent.$parent.$index,
@@ -294,7 +296,8 @@
                      ng-class="{'repost': !sortedAims.isUserReposted, 'reposted': sortedAims.isUserReposted}"
                      ng-hide="currentUser.login === anotherUser.login"
                      ng-click="loadAimsCtrl.repost($index)"><i class="reply icon"></i>{{sortedAims.repostCount}}</div>
-                <div class="comments"><i class="comment icon"></i></div>
+                <div class="show-comments"
+                        ng-click="loadAimsCtrl.getComments($index)"><i class="comment icon"></i></div>
 
                 <div class="clear"></div>
             </section>
@@ -315,7 +318,68 @@
                 <input class="aim-picture{{$index}} hidden" type="file" multiple>
             </div>
             <div class="clear"></div>
+
+            <section class="comments" ng-controller="commentsCtrl as commentsCtrl"
+                     ng-show="sortedAims.isCommentsActive">
+                <div class="comments-list">
+                    <div class="comment" ng-repeat="comment in commentsCtrl.comments">
+                        <section class="column-1">
+                            <img class="image"
+                                 ng-src="{{comment.userPicture}}">
+                        </section>
+                        <section class="column-2">
+                            <div class="name">{{comment.user.name || currentUser.name}}</div>
+                            <div class="date">{{comment.dateOfAdding}}</div>
+                            <div class="content"
+                                 content-editable=""
+                                 ng-model="comment.content">{{comment.content}}</div>
+                            <div class="remove-comment"
+                                 ng-click="commentsCtrl.deleteComment(comment.commentId, $index)">
+                                <i class="remove icon"></i>
+                            </div>
+                            <div class="edit-comment" ng-hide="commentsCtrl.isEditing || !comment.isEditable">
+                                <i class="write icon"
+                                   ng-click="commentsCtrl.editComment($event, $index)"></i>
+                            </div>
+                        </section>
+                        <div class="clear"></div>
+                        <div class="comment-bottom-buttons">
+                            <div class="like"
+                                 ng-class="{'like': !comment.isUserLiked, 'liked': comment.isUserLiked}"
+                                 ng-click="commentsCtrl.likeComment($index, comment.commentId)"
+                                 ng-hide="comment.isEditing">
+                                <i class="heart icon"></i> {{comment.likesCount}}
+                            </div>
+                            <div class="reply"
+                                 ng-hide="comment.isEditing"
+                                 ng-click="commentsCtrl.reply($parent.$index, comment.user.login)">Reply</div>
+                            <div class="mini ui teal button"
+                                 ng-show="comment.isEditing"
+                                 ng-click="commentsCtrl.updateComment($event, $index)">Save</div>
+                            <div class="mini ui teal button"
+                                 ng-show="comment.isEditing"
+                                 ng-click="commentsCtrl.cancelEditing($event, $index)">Cancel</div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="add-comment">
+                    <div class="comment-area"
+                         contenteditable="true"
+                         content-editable=""
+                         enter-press="commentsCtrl.createComment()"
+                         ng-model="commentsCtrl.comment"
+                         ng-focus="commentsCtrl.isFocused = true;"
+                         placeholder-text="Your comment"></div>
+                    <div class="tiny ui teal button"
+                         ng-show="commentsCtrl.isFocused"
+                         ng-click="commentsCtrl.createComment()">Post</div>
+                    <div class="clear"></div>
+                </div>
+            </section>
+
         </div>
+
         <div infinite-scroll="loadAimsCtrl.getAims()"
              infinite-scroll-disabled='loadAimsCtrl.busyDataLoading'></div>
         <div class="no-more-aims" ng-show="loadAimsCtrl.noMoreAims">Nunc ac sapien a dolor cursus convallis</div>

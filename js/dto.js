@@ -34,3 +34,8 @@ function Step(id, title, description, dateOfStart, dateOfEnd, markedUsers, workt
     this.subSteps = subSteps;
 }
 
+function Comment(commentId, content, markedUsers) {
+    this.commentId = commentId;
+    this.content = content;
+    this.markedUsers = markedUsers;
+}

@@ -1,9 +1,12 @@
 app.service('Drafts', ['$resource', '$rootScope', '$http', function ($resource, $rootScope, $http) {
-    var find = $resource($rootScope.contextPath + $rootScope.restPath +
-    '/users/aims/actions/findDrafts', {});
+    var find = $resource($rootScope.contextPath + $rootScope.restPath + '/users/aims/actions/findDrafts', {});
     var del = $resource($rootScope.contextPath + $rootScope.restPath + '/users/aims/actions/deleteDraft', {}, {
         'delete': {method: 'DELETE'}
     });
+    var steps = $resource($rootScope.contextPath + $rootScope.restPath + '/users/aims/steps/actions/findDraftSteps', {},
+        {
+            'get': {method: 'GET', isArray: true}
+        });
 
     return {
         getDrafts: function (limit) {
@@ -17,15 +20,13 @@ app.service('Drafts', ['$resource', '$rootScope', '$http', function ($resource, 
             } else if (!aimId && sessionId) {
                 return del.delete({sessionObjectId: sessionId});
             }
-
-            //$http.delete($rootScope.contextPath + $rootScope.restPath + '/users/aims/actions/deleteDraft',
-            //    {sessionObjectId: sessionId, aimId: null})
-            //    .success(function () {
-            //        console.log('good')
-            //    })
-            //    .error(function () {
-            //        console.log('bad')
-            //    })
+        },
+        getSteps: function (sessionObjectId, aimId) {
+            if (sessionObjectId) {
+                return steps.get({sessionObjectId: sessionObjectId});
+            } else {
+                return steps.get({aimId: aimId});
+            }
         }
     }
 }]);

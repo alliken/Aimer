@@ -119,6 +119,18 @@ app.controller('draftsCtrl', function ($http, $compile, $rootScope, $scope, Draf
         });
     };
 
+    draftsCtrl.getSteps = function (index) {
+        var sessionObjectId = draftsCtrl.sortedDrafts[index].sessionObjectId;
+        var aimId = draftsCtrl.sortedDrafts[index].aim.id;
+        console.log(aimId);
+        console.log(sessionObjectId);
+        Drafts.getSteps(sessionObjectId, aimId).$promise.then(function (data) {
+            console.log(data);
+        }, function () {
+            console.log('bad');
+        })
+    };
+
     /**
      * Deletes draft by sessionId
      * @param index
@@ -210,7 +222,6 @@ app.controller('draftsCtrl', function ($http, $compile, $rootScope, $scope, Draf
                 }
             }
         } else {
-            //var targetIndex = ang(e.target).index();
             var images = ang(editableAim).find('.aim-images img');
             var targetIndex = ang.inArray(e.target, images);
 
@@ -287,8 +298,8 @@ app.controller('draftsCtrl', function ($http, $compile, $rootScope, $scope, Draf
 
         data.append('aimDto', JSON.stringify(aim));
 
-        for (i = 0; i < loadAimsCtrl.addedPictures.length; i++) {
-            data.append("photos", loadAimsCtrl.addedPictures[i].file);
+        for (i = 0; i < draftsCtrl.addedPictures.length; i++) {
+            data.append("photos", draftsCtrl.addedPictures[i].file);
         }
 
         $http({
@@ -315,7 +326,7 @@ app.controller('draftsCtrl', function ($http, $compile, $rootScope, $scope, Draf
                         })
                         .removeClass('editable');
                     $compile(aimName)($scope);
-                    loadAimsCtrl.isEditing = false;
+                    draftsCtrl.isEditing = false;
                 }, 1)
             })
             .error(function () {

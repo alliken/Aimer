@@ -135,12 +135,12 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locatio
 });
 
 //TODO comment
-app.run(function ($rootScope, $location, $state, userStorageService) {
+app.run(function ($rootScope, $location, $state, userStorageService, timeSyncServer) {
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
         var isPublic = toState.data.isPublic;
         var targetState = toState.name;
-        var authTime = 15; // minutes
+        var authTime = timeSyncServer.authTime(); // minutes
         var ang = angular.element;
         ang('.signup-please').hide();
         if (targetState != 'user') $rootScope.anotherUser = false;
@@ -148,7 +148,7 @@ app.run(function ($rootScope, $location, $state, userStorageService) {
         //TODO подумать над синхронизацией с сервером. смотреть пример с Твиттером и ВК
         if ($rootScope.authTime) {
             $rootScope.currentTime = new Date().getTime();
-            if (($rootScope.currentTime - $rootScope.authTime) > authTime * 60 * 1000) {
+            if (($rootScope.currentTime - $rootScope.authTime) > authTime) {
                 $rootScope.prevented = false;
                 $rootScope.authenticated = false;
             }

@@ -1,5 +1,5 @@
 app.controller('loadAimsCtrl', function ($scope, $rootScope, $http, $sce, $timeout, $location, Steps, Aims,
-                                         $compile, $q, photoGrid) {
+                                         $compile, $q, photoGrid, Comments, timeSyncServer) {
     var loadAimsCtrl = this;
     var ang = angular.element;
     loadAimsCtrl.sortedAims = [];
@@ -8,6 +8,7 @@ app.controller('loadAimsCtrl', function ($scope, $rootScope, $http, $sce, $timeo
     loadAimsCtrl.busyDataLoading = false;
     loadAimsCtrl.isEditing = false;
     loadAimsCtrl.addedPictures = [];
+    loadAimsCtrl.isCommentsActive = false;
 
     /**
      * Processes and returns aims array received from server
@@ -40,6 +41,7 @@ app.controller('loadAimsCtrl', function ($scope, $rootScope, $http, $sce, $timeo
         var offset;
         var userId;
         var limit = 5;
+        var isDeleted = '?';
         loadAimsCtrl.loading = true;
         loadAimsCtrl.busyDataLoading = true;
 
@@ -49,9 +51,14 @@ app.controller('loadAimsCtrl', function ($scope, $rootScope, $http, $sce, $timeo
             offset = loadAimsCtrl.sortedAims.length;
         }
 
-        userId = $rootScope.anotherUser ? ('/' + $rootScope.anotherUser.userId) : '';
-        $http.get($rootScope.contextPath + $rootScope.restPath + '/users' + userId + '/aims?offset=' +
-        offset + '&limit=' + limit)
+        if ($rootScope.currentUser && ($rootScope.anotherUser.userId === $rootScope.currentUser.userId)) {
+            userId = '';
+            isDeleted = '?isDeleted=false&'
+        } else {
+            userId = '/' + $rootScope.anotherUser.userId;
+        }
+        $http.get($rootScope.contextPath + $rootScope.restPath + '/users' + userId + '/aims' + isDeleted +
+        'offset=' + offset + '&limit=' + limit)
             .success(function (data) {
                 if (data.length === 0) {
                     loadAimsCtrl.loading = false;
@@ -200,6 +207,7 @@ app.controller('loadAimsCtrl', function ($scope, $rootScope, $http, $sce, $timeo
         var id = loadAimsCtrl.sortedAims[index].aimId;
         console.log(id);
         Aims.deleteAim(id).$promise.then(function () {
+            loadAimsCtrl.sortedAims.splice(index, 1);
             console.log('good');
         }, function () {
             console.log('bad');
@@ -435,6 +443,8 @@ app.controller('loadAimsCtrl', function ($scope, $rootScope, $http, $sce, $timeo
             currentAim.access,
             steps);
 
+        console.log(aim);
+
         if (currentAim.aimPictures) {
             aim.aimPictures = [];
             for (i = 0; i < currentAim.aimPictures.length; i++) {
@@ -510,6 +520,55 @@ app.controller('loadAimsCtrl', function ($scope, $rootScope, $http, $sce, $timeo
             console.log('This aim doesn\'t exist or you don\'t have appropriate rights');
         })
     };
+
+    loadAimsCtrl.getComments = function (index) {
+        var currentAim = loadAimsCtrl.sortedAims[index];
+        var aimId = currentAim.aimId;
+        var offset = 0;
+        var limit = 10;
+
+        Comments.getComments(aimId, offset, limit).$promise.then(function (data) {
+            console.log(data);
+            for (var i = 0; i < data.length; i++) {
+                data[i].isEditable = isCommentEditable(data[i].dateOfAdding);
+                data[i].dateOfAdding = transformDateToReadable(data[i].dateOfAdding);
+                data[i].userPicture = $rootScope.contextPath + (data[i].userPicture ?
+                    (data[i].userPicture + (data[i].userPicture.indexOf("?") > 0 ? "&" : "?") +
+                    new Date().getTime()) : (''));
+            }
+
+            selectRightScope(data);
+            currentAim.isCommentsActive = true;
+        }, function () {
+            currentAim.isCommentsActive = true;
+        });
+
+        function isCommentEditable(dateOfAdding) {
+            var date = new Date().getTime();
+            return (date - dateOfAdding) <= timeSyncServer.commentEditingTime();
+        }
+
+        function transformDateToReadable(date) {
+            var d = new Date(date);
+            return ('0' + d.getDate()).slice(-2) + '/' +
+                ('0' + (d.getMonth() + 1)).slice(-2) + '/' + d.getFullYear();
+        }
+
+        function selectRightScope(data) {
+            // TODO find better way to do it!!!
+            if (index === 0) {
+                $scope.$$childHead.$$childHead.commentsCtrl.comments = data;
+            } else {
+                var sc = $scope.$$childHead;
+                for (var j = 0; j < index; j++) {
+                    sc = sc.$$nextSibling;
+                }
+                sc = sc.$$childHead.commentsCtrl;
+                sc.comments = data;
+                console.log($scope);
+            }
+        }
+    }
 
 });
 

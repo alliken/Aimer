@@ -517,13 +517,13 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
 
     aimCtrl.saveAim = function () {
         var data = new FormData();
-        var aim = aimCtrl.collectAimData(null);
-        console.log($scope);
+        var aim = aimCtrl.collectAimData(aimCtrl.sessionId);
+        console.log(aim);
         for (var i = 0; i < aimCtrl.aim.pictures.length; i++) {
             data.append("photos", aimCtrl.aim.pictures[i]);
         }
 
-        data.append('aimSessionDto', JSON.stringify(aimCtrl.collectAimData(sessionId)));
+        data.append('aimSessionDto', JSON.stringify(aimCtrl.collectAimData(aimCtrl.sessionId)));
 
         $http({
             method: 'POST',
@@ -535,7 +535,7 @@ app.controller('aimCtrl', function ($rootScope, $scope, $timeout, $interval, $ht
             }
         })
             .success(function () {
-                sessionId = null;
+                aimCtrl.sessionId = null;
                 aimCtrl.hideAddAim();
                 var loadAimsCtrl = $scope.$$nextSibling.loadAimsCtrl;
                 loadAimsCtrl.sortedAims.unshift(aim.aim);

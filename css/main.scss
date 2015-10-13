@@ -221,3 +221,10 @@ header {
   height: auto;
   margin: 60px auto 0;
 }
+
+[placeholder-text]:not(:focus):empty:before {
+  content: attr(placeholder-text);
+  float: left;
+  margin-left: 2px;
+  color: rgba(200,200,200,1);
+}

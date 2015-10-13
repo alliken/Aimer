@@ -94,13 +94,11 @@
                 </div>
                 <div class="clear"></div>
             </section>
-            <!--<section class="bottom-content" ng-hide="draftsCtrl.editableAim">-->
-                <!--<div class="load-steps"-->
-                     <!--ng-hide="!sortedDrafts.aim.stepsCount"-->
-                     <!--ng-click="draftsCtrl.getSteps($index)">{{sortedDrafts.aim.stepsCount}} Steps</div>-->
-
-                <!--<div class="clear"></div>-->
-            <!--</section>-->
+            <section class="bottom-content" ng-hide="draftsCtrl.editableAim">
+                <div class="load-steps"
+                     ng-click="draftsCtrl.getSteps($index)">{{sortedDrafts.aim.stepsCount}} Steps</div>
+                <div class="clear"></div>
+            </section>
 
             <div class="ui teal basic button"
                  style="float: right;"
