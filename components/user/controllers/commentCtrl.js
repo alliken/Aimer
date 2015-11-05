@@ -285,5 +285,6 @@ app.controller('commentsCtrl', function ($scope, $rootScope, Comments, messages,
      */
     commentsCtrl.hideUsersLiked = function () {
         commentsCtrl.usersVisible = false;
+        console.log('error');
     }
 });
