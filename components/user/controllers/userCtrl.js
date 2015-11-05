@@ -512,5 +512,4 @@ app.controller('userCtrl', function ($http, $compile, $scope, $rootScope, $state
     $scope.hideBlock = function (selector) {
         ang(selector).hide();
     };
-
 });
