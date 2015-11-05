@@ -1,23 +1,13 @@
 app.factory('photoGrid', function () {
     var ang = angular.element;
     return {
-        apply: function (editableAim) {
-            var randomBoolean = [
-                function () {
-                    return Math.random() < .5; // Readable, succint
-                },
+        apply: function (editableAim, selector) {
 
-                function () {
-                    return !(Math.random() + .5 | 0); // (shortcut for Math.round)
-                },
+            if (!selector) selector = '.aim-images';
 
-                function () {
-                    return !(+new Date() % 2); // faux-randomness
-                }
-            ];
-            $(ang(editableAim).find('.aim-images')).jPhotoGrid({
+            $(ang(editableAim).find(selector)).jPhotoGrid({
                 margin: 1,
-                isFirstRowBig: randomBoolean,
+                isFirstRowBig: Math.random() < .5,
                 isCentred: true,
                 isSmallImageStretched: true
             });

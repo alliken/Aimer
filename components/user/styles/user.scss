@@ -1,0 +1,53 @@
+@mixin inline-left {
+  display: inline-block;
+  float: left;
+}
+
+@mixin inline-right {
+  display: inline-block;
+  float: right;
+}
+
+$content-width: 980px;
+$navigation: 23%;
+$main-margin-left: 3%;
+$main-width: 640px;
+
+body {
+  background-color: #F3F9F9;
+}
+
+// Crop modal window
+@import "crop-box";
+
+// User background styles
+@import "background";
+
+// Wrapper block (consist of navigation panel, main content)
+@import "wrapper";
+
+.main {
+  @include inline-left;
+  width: $main-width;
+  margin-left: $main-margin-left;
+  margin-top: 15px;
+  padding-bottom: 30px;
+
+  // Aim add block
+  @import "aim-add";
+
+  // Aim feed
+  @import "aim-feed";
+}
+
+// Other styles (active, editable...)
+@import "other-styles";
+
+// Search block styles
+@import "search-list";
+
+// Users liked block (hover on like)
+@import "users-liked";
+
+// Error message
+@import "error-message";

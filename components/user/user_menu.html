@@ -25,8 +25,8 @@
 <div class="scrolling-container">
     <div class="user-info" ng-cloak>
         <p>
-            <span class="name">{{(anotherUser.name || user.name)}}</span> <br>
-            <span class="login">{{anotherUser.login || user.login}}</span>
+            <span class="name">{{(anotherUser.name || currentUser.name)}}</span> <br>
+            <span class="login">@{{anotherUser.login || currentUser.login}}</span>
         </p>
 
         <p class="user-status">{{userStatus || 'Set status here'}}</p>

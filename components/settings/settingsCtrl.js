@@ -77,7 +77,7 @@ app.lazy.controller('settingsCtrl', function ($scope, $http, $rootScope, $compil
 
                     Users[param].isUnique(value).$promise.then(function (data) {
                         data.$promise.then(function (data) {
-                            console.log(data)
+
                         });
 
                     });

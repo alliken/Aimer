@@ -418,31 +418,26 @@ body {
         background-color: #e6e6e6;
         border: 1px solid #cccccc;
         width: 483px;
-        min-height: 123px; }
-        .main .aim-add .aim-add-form-container .aim-images-preview .image-container {
-          float: left;
-          position: relative;
-          width: 159px;
-          display: block; }
-          .main .aim-add .aim-add-form-container .aim-images-preview .image-container img {
-            vertical-align: top;
-            width: 100%;
-            padding: 1px; }
-          .main .aim-add .aim-add-form-container .aim-images-preview .image-container .remove-icon-container {
-            background-color: rgba(0, 0, 0, 0.5);
-            position: absolute;
-            top: 3px;
-            right: 3px;
-            line-height: 0 !important;
-            padding-bottom: 3px;
-            height: 16px;
-            cursor: pointer;
-            border-radius: 200px; }
-            .main .aim-add .aim-add-form-container .aim-images-preview .image-container .remove-icon-container i.icon {
-              color: white;
-              margin: 0 0 0 1px; }
-          .main .aim-add .aim-add-form-container .aim-images-preview .image-container .remove-icon-container:hover {
-            background-color: rgba(0, 0, 0, 0.8); }
+        height: 300px;
+        min-height: 123px;
+        display: none; }
+        .main .aim-add .aim-add-form-container .aim-images-preview img {
+          display: none; }
+        .main .aim-add .aim-add-form-container .aim-images-preview .remove-icon-container {
+          background-color: rgba(0, 0, 0, 0.5);
+          position: absolute;
+          top: 3px;
+          right: 3px;
+          line-height: 0 !important;
+          padding-bottom: 3px;
+          height: 16px;
+          cursor: pointer;
+          border-radius: 200px; }
+          .main .aim-add .aim-add-form-container .aim-images-preview .remove-icon-container i.icon {
+            color: white;
+            margin: 0 0 0 1px; }
+        .main .aim-add .aim-add-form-container .aim-images-preview .remove-icon-container:hover {
+          background-color: rgba(0, 0, 0, 0.8); }
   .main .aim-feed .aim {
     margin-top: 16px;
     width: 100%;
@@ -496,6 +491,10 @@ body {
         display: none; }
         .main .aim-feed .aim .content .aim-images .image {
           display: none; }
+      .main .aim-feed .aim .content .aim-images-editing {
+        height: 0;
+        min-height: 350px;
+        display: block; }
       .main .aim-feed .aim .content .step .drag-container {
         position: relative; }
         .main .aim-feed .aim .content .step .drag-container .step-name {
@@ -503,6 +502,14 @@ body {
           color: #333333;
           min-height: 23px;
           max-width: 564px; }
+        .main .aim-feed .aim .content .step .drag-container .finished {
+          background-color: #ccc; }
+        .main .aim-feed .aim .content .step .drag-container .finish-step {
+          position: absolute;
+          right: 3px;
+          top: 3px;
+          cursor: pointer;
+          display: none; }
         .main .aim-feed .aim .content .step .drag-container .drag-button {
           position: absolute;
           right: 3px;
@@ -546,6 +553,8 @@ body {
               width: 573px; }
           .main .aim-feed .aim .content .step .drag-container .substeps li:hover .delete-substep {
             display: block; }
+      .main .aim-feed .aim .content .step .drag-container:hover .finish-step {
+        display: block; }
       .main .aim-feed .aim .content .add-step {
         float: right; }
     .main .aim-feed .aim .bottom-content {
@@ -573,6 +582,7 @@ body {
       padding: 0 10px 10px 10px;
       width: 100%;
       background-color: #E6F1F3;
+      position: relative;
       /* Comments list scrollbar style*/
       /* Track */
       /* Handle */ }
@@ -581,23 +591,25 @@ body {
         padding: 10px;
         overflow-y: auto; }
         .main .aim-feed .aim .comments .comments-list .comment {
-          position: relative;
           margin-top: 3px; }
           .main .aim-feed .aim .comments .comments-list .comment .column-1, .main .aim-feed .aim .comments .comments-list .comment .column-2 {
             display: inline-block;
             float: left;
-            box-sizing: border-box; }
+            box-sizing: border-box;
+            position: relative; }
           .main .aim-feed .aim .comments .comments-list .comment .column-1 {
             width: 45px; }
           .main .aim-feed .aim .comments .comments-list .comment .column-2 {
-            width: 520px;
+            width: 540px;
             padding: 0 5px 0 5px; }
-          .main .aim-feed .aim .comments .comments-list .comment img {
+          .main .aim-feed .aim .comments .comments-list .comment .user-picture {
             width: 45px; }
           .main .aim-feed .aim .comments .comments-list .comment .name {
             font-weight: bold;
             font-size: 1.2em;
             color: #293334; }
+          .main .aim-feed .aim .comments .comments-list .comment .login {
+            font-size: 1.1em; }
           .main .aim-feed .aim .comments .comments-list .comment .date {
             font-size: 0.9em;
             color: #b3b3b3; }
@@ -607,7 +619,10 @@ body {
             margin-top: 7px;
             font-size: 1.1em; }
           .main .aim-feed .aim .comments .comments-list .comment .comment-bottom-buttons {
-            height: 15px; }
+            position: relative;
+            height: 15px;
+            width: 583px;
+            margin: 0; }
           .main .aim-feed .aim .comments .comments-list .comment .edit-comment, .main .aim-feed .aim .comments .comments-list .comment .remove-comment {
             position: absolute;
             opacity: 0;
@@ -627,23 +642,33 @@ body {
           .main .aim-feed .aim .comments .comments-list .comment .edit-comment:hover, .main .aim-feed .aim .comments .comments-list .comment .remove-comment:hover {
             color: #9d9d9d; }
           .main .aim-feed .aim .comments .comments-list .comment .reply, .main .aim-feed .aim .comments .comments-list .comment .like {
-            overflow: hidden;
             float: right;
             cursor: pointer;
             margin-right: 5px;
             color: #c8c8c8;
             opacity: 0;
+            display: block;
             -webkit-transition: all .3s ease;
             -moz-transition: all .3s ease;
             -ms-transition: all .3s ease;
             -o-transition: all .3s ease;
             transition: all .3s ease; }
+          .main .aim-feed .aim .comments .comments-list .comment .like {
+            width: 25px; }
           .main .aim-feed .aim .comments .comments-list .comment .liked {
             opacity: 1;
             cursor: pointer;
             display: inline-block;
             float: right;
             color: #157564 !important;
+            width: 25px;
+            margin-right: 5px; }
+          .main .aim-feed .aim .comments .comments-list .comment .liked-notby-user {
+            opacity: 1;
+            cursor: pointer;
+            width: 25px;
+            float: right;
+            color: #c8c8c8;
             margin-right: 5px; }
           .main .aim-feed .aim .comments .comments-list .comment .reply:hover, .main .aim-feed .aim .comments .comments-list .comment .like:hover {
             color: #9d9d9d; }
@@ -652,8 +677,11 @@ body {
             border-radius: 0;
             margin-top: 5px; }
         .main .aim-feed .aim .comments .comments-list .comment:hover .edit-comment, .main .aim-feed .aim .comments .comments-list .comment:hover .remove-comment,
-        .main .aim-feed .aim .comments .comments-list .comment:hover .reply, .main .aim-feed .aim .comments .comments-list .comment:hover .like {
+        .main .aim-feed .aim .comments .comments-list .comment:hover .reply {
           opacity: 1; }
+        .main .aim-feed .aim .comments .comments-list .comment:hover .like {
+          opacity: 1;
+          width: 25px; }
       .main .aim-feed .aim .comments .comments-list::-webkit-scrollbar {
         width: 8px; }
       .main .aim-feed .aim .comments .comments-list::-webkit-scrollbar-track {
@@ -691,37 +719,6 @@ body {
     margin: 50px 300px;
     display: block;
     width: 40px; }
-
-.error-message-block {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-  background: transparent;
-  display: none; }
-  .error-message-block .error-message {
-    width: 20%;
-    height: 25%;
-    display: block;
-    margin: 200px auto;
-    background-color: white;
-    border-radius: 1px;
-    -webkit-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.9);
-    -moz-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.9);
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.9);
-    position: relative;
-    padding: 5px; }
-    .error-message-block .error-message .remove {
-      position: absolute !important;
-      right: 3px !important;
-      top: 5px !important;
-      cursor: pointer; }
-    .error-message-block .error-message .text {
-      display: block;
-      margin-top: 10%;
-      width: 100%; }
 
 .active-font-btn {
   background-color: #a4a4a4 !important; }
@@ -791,3 +788,68 @@ body {
     color: #08033e; }
   .search-list-attach .advanced-search:hover {
     color: #78c4ff; }
+
+.users-liked {
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 185px;
+  padding: 5px 0 5px 5px;
+  border-radius: 2px;
+  margin: 0;
+  transition: all 0.5s;
+  position: absolute; }
+  .users-liked .users-liked-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none; }
+    .users-liked .users-liked-list li {
+      float: left; }
+      .users-liked .users-liked-list li img {
+        margin-right: 5px;
+        width: 30px;
+        vertical-align: top;
+        cursor: pointer; }
+
+.users-liked::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  right: 70px;
+  width: 0;
+  height: 0;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-top: 16px solid rgba(0, 0, 0, 0.6);
+  z-index: 100; }
+
+.error-message-block {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background: transparent;
+  display: none; }
+  .error-message-block .error-message {
+    width: 20%;
+    height: 25%;
+    display: block;
+    margin: 200px auto;
+    background-color: white;
+    border-radius: 1px;
+    -webkit-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.9);
+    -moz-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.9);
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.9);
+    position: relative;
+    padding: 5px; }
+    .error-message-block .error-message .remove {
+      position: absolute !important;
+      right: 3px !important;
+      top: 5px !important;
+      cursor: pointer; }
+    .error-message-block .error-message .text {
+      display: block;
+      margin-top: 10%;
+      width: 100%; }
+
+/*# sourceMappingURL=user.css.map */

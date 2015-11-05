@@ -36,8 +36,6 @@ app.directive('imageDrop', function ($parse, $document) {
                         scope.$parent.$parent.uploadedFile = file;
                         break;
                 }
-                //scope.$parent.uploadedFile = file;
-                //console.log(scope);
                 scope.$apply(onImageDrop(scope));
             };
 

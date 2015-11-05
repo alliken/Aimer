@@ -112,7 +112,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locatio
         })
         .state('drafts', {
             url: '/drafts',
-            templateUrl: 'components/drafts/drafts.html',
+            templateUrl: 'components/drafts/dr.html',
             data: {
                 showIfAuth: true,
                 isPublic: false
@@ -135,7 +135,7 @@ app.config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locatio
 });
 
 //TODO comment
-app.run(function ($rootScope, $location, $state, userStorageService, timeSyncServer) {
+app.run(function ($rootScope, $location, $state, userStorageService, timeSyncServer, timeoutsService) {
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
         var isPublic = toState.data.isPublic;
@@ -143,6 +143,7 @@ app.run(function ($rootScope, $location, $state, userStorageService, timeSyncSer
         var authTime = timeSyncServer.authTime(); // minutes
         var ang = angular.element;
         ang('.signup-please').hide();
+        timeoutsService.cancelAll();
         if (targetState != 'user') $rootScope.anotherUser = false;
 
         //TODO подумать над синхронизацией с сервером. смотреть пример с Твиттером и ВК

@@ -1,6 +1,6 @@
 app.service('timeSyncServer', function () {
-    var commentEditingTime = 10; // min - time when user still can edit its comment
     var authTime = 15; // min - time user is authorized on server without actions
+    var commentEditingTime = 5; // min - time when user still can edit its comment
 
     return {
         commentEditingTime: function () {
